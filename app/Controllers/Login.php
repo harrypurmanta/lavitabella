@@ -1,22 +1,34 @@
 <?php namespace App\Controllers;
 
+use CodeIgniter\Controller;
+use App\Models\Usersmodel;
+
 class Login extends BaseController
 {
 
-	public function __construct() {
-        parent::__construct();
-        $this->load->model('UsersModel');
-        //$this->load->helper('url_helper');
-    }
 
 	public function index() {
-		return view('Login');
+		return view('login');
 	}
 
-	public function checklogin($u,$p) {
-		
+	public function checklogin() {
+		$session = \Config\Services::session();
+		$Usersmodel = new Usersmodel();
+		$u = $this->request->getVar('username');
+		$p = $this->request->getVar('password');
+		$pwd0 = md5($p);
+    	
+		$res = $Usersmodel->checklogin($u,$pwd0);
+
+			if (count($res) > 0) {
+			  foreach ($res as $k) {
+			  	$session->set($k);
+			}
+          return redirect('dashboard');
+        } else {
+          return redirect('login');
+        } 
 	}
 
-	//--------------------------------------------------------------------
 
 }
