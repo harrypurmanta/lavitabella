@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="../../assets/plugins/datatables.net-bs4/css/responsive.dataTables.min.css">
     <!-- This page CSS -->
     <!--alerts CSS -->
-    <link href="../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Vector CSS -->
     <link href="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- chartist CSS -->
@@ -188,8 +188,8 @@
     <!-- This page plugins -->
     <!-- ============================================================== -->
     <!-- Sweet-Alert  -->
-    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
-    <script src="../assets/plugins/sweetalert2/sweet-alert.init.js"></script>
+    <script src="../../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="../../assets/plugins/sweetalert2/sweet-alert.init.js"></script>
     <!-- This is data table -->
     <script src="../../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables.net-bs4/js/dataTables.responsive.min.js"></script>

@@ -40,7 +40,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Nama Kategori Produk</label>
-                                                    <input type="text" id="namakategori" class="form-control text-uppercase" placeholder="Input disini">
+                                                    <input type="text" id="namakategori" class="form-control text-uppercase" placeholder="Input disini" required="">
                                                     <small class="form-control-feedback"> Contoh : starter, pizza, pasta dll </small> </div>
                                             </div>
                                         </div>
@@ -98,11 +98,48 @@
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
-            
+
               <script type="text/javascript">
+
+              	
+
+
                 function simpan() {
                     var kategori_nm = $('#namakategori').val();
-                    alert(kategori_nm);
+                    $.ajax({
+						url : "<?= base_url('kategori/save') ?>",
+						type: "post",
+						data : {'kategori_nm':kategori_nm},
+						success:function(){
+							Swal.fire({
+								title:"Berhasil!",
+								text:"Data berhasil disimpan!",
+								type:"success",
+								showCancelButton:!0,
+								confirmButtonColor:"#556ee6",
+								cancelButtonColor:"#f46a6a"
+							})
+
+
+		                    //  setTimeout(
+		                    //     function() {
+		                    //          window.location.href = "<?=base_url()?>patient/registrasi";
+		                    //     }, 2000
+		                    // );
+		                   
+						},
+						error:function(){
+							Swal.fire({
+								title:"Gagal!",
+								text:"Data gagal disimpan!",
+								type:"warning",
+								showCancelButton:!0,
+								confirmButtonColor:"#556ee6",
+								cancelButtonColor:"#f46a6a"
+							})
+						}
+					});
                 }
+
             </script>
 <?= $this->endSection(); ?>

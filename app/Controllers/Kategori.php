@@ -1,7 +1,7 @@
 <?php namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\Usersmodel;
+use App\Models\Kategorimodel;
 
 class Kategori extends BaseController
 {
@@ -20,6 +20,18 @@ class Kategori extends BaseController
 			'subtitle' => 'Tambah Data Kategori'
 		];
 		return view('backend/addkategori', $data);
+	}
+
+	public function save(){
+		$kategorimodel = new Kategorimodel();
+
+		$data = [
+			'title' => 'Tambah Data Kategori',
+			'subtitle' => 'Tambah Data Kategori'
+		];
+
+		$save = $kategorimodel->insert($data);
+		return true;
 	}
 
 }
