@@ -136,11 +136,7 @@
 									confirmButtonColor:"#556ee6",
 									cancelButtonColor:"#f46a6a"
 								})
-								setTimeout(
-			                        function() {
-			                             window.location.href = "<?=base_url()?>kategori";
-			                        }, 1000
-			                    );
+								window.location.href = "<?=base_url()?>/kategori";
 							}
 							
 
