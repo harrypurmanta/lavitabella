@@ -11,6 +11,7 @@ class Login extends BaseController
 
 	public function checklogin() {
 		$session = \Config\Services::session();
+		$session->start();
 		$Usersmodel = new Usersmodel();
 		$u = $this->request->getVar('username');
 		$p = $this->request->getVar('password');

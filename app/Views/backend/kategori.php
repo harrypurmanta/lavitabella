@@ -1,4 +1,5 @@
-<?= $this->extend('backend/layout/template'); ?>
+<?= $this->extend('backend/layout/template'); 
+?>
     
 
     <?= $this->section('content'); ?>
@@ -34,7 +35,8 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                              <form action="#">
+                              <form>
+                              	<?= csrf_field(); ?>
                                     <div class="form-body">
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
@@ -61,7 +63,6 @@
                         <div class="card">
                         	<div class="card-header bg-info">
                                 <h4 class="m-b-0 text-white d-inline">Tabel Data Kategori</h4>
-                                <a href="kategori/tambahdata"><button class="btn btn-primary d-inline float-right">Tambah Data</button></a>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
@@ -77,14 +78,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        	<?php 
+                                        		$no=1;
+                                        		foreach ($kategori as $k) {
+                                        	?>
                                             <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
+                                                <td><?= $no++ ?></td>
+                                                <td><?= $k['kategori_nm'] ?></td>
+                                                <td><?= $k['status_cd'] ?></td>
+                                                <td><?= $k['created_dttm'] ?></td>
+                                                <td><?= $k['created_user'] ?></td>
                                                 <td>$320,800</td>
                                             </tr>
+                                        <?php } ?>
                                      </tbody>
                                     </table>
                                 </div>
@@ -110,22 +116,36 @@
 						url : "<?= base_url('kategori/save') ?>",
 						type: "post",
 						data : {'kategori_nm':kategori_nm},
-						success:function(){
-							Swal.fire({
-								title:"Berhasil!",
-								text:"Data berhasil disimpan!",
-								type:"success",
-								showCancelButton:!0,
-								confirmButtonColor:"#556ee6",
-								cancelButtonColor:"#f46a6a"
-							})
+						success:function(_data){
+							if (_data=='already') {
+								Swal.fire({
+									title:"Nama kategori sudah ada!!",
+									text:"GAGAL!",
+									type:"warning",
+									showCancelButton:!0,
+									confirmButtonColor:"#556ee6",
+									cancelButtonColor:"#f46a6a"
+								})
+
+							} else {
+								Swal.fire({
+									title:"Berhasil!",
+									text:"Data berhasil disimpan!",
+									type:"success",
+									showCancelButton:!0,
+									confirmButtonColor:"#556ee6",
+									cancelButtonColor:"#f46a6a"
+								})
+								setTimeout(
+			                        function() {
+			                             window.location.href = "<?=base_url()?>kategori";
+			                        }, 1000
+			                    );
+							}
+							
 
 
-		                    //  setTimeout(
-		                    //     function() {
-		                    //          window.location.href = "<?=base_url()?>patient/registrasi";
-		                    //     }, 2000
-		                    // );
+		                   
 		                   
 						},
 						error:function(){
