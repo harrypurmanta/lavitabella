@@ -5,8 +5,6 @@ use App\Models\Usersmodel;
 
 class Login extends BaseController
 {
-
-
 	public function index() {
 		return view('login');
 	}
@@ -29,6 +27,4 @@ class Login extends BaseController
           return redirect('login');
         } 
 	}
-
-
 }

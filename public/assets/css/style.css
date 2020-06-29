@@ -5628,7 +5628,8 @@ File: scss
  ============================================================== */
 @media (min-width: 1024px) {
   .page-wrapper {
-    margin-left: 240px; } }
+   /* margin-left: 240px; */
+    } }
 
 @media (max-width: 1023px) {
   .page-wrapper {

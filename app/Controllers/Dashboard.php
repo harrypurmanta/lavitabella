@@ -6,9 +6,11 @@ use App\Models\Usersmodel;
 class Dashboard extends BaseController
 {
 
-
 	public function index() {
-		return view('backend/dashboard');
+		$data = [
+			'title' => 'Admin Dashboard'
+		];
+		return view('backend/dashboard', $data);
 	}
 
 }
