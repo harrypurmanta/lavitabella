@@ -31,7 +31,7 @@ class Kategori extends BaseController
 		];
 
 		$save = $kategorimodel->insert($data);
-		return true;
+		dd($save);
 	}
 
 }
