@@ -27,10 +27,12 @@
                     </ol>
                 </div>
             </div>
+            <hr>
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-          		 <div class="row">
+          
+                <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -56,50 +58,13 @@
                     </div>
                    
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                        	<div class="card-header bg-info">
-                                <h4 class="m-b-0 text-white d-inline">Tabel Data Kategori</h4>
-                                <a href="kategori/tambahdata"><button class="btn btn-primary d-inline float-right">Tambah Data</button></a>
-                            </div>
-                            <div class="card-body">
-                               <div class="table-responsive">
-                                    <table id="myTable" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                     </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-                </div>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
-            
-              <script type="text/javascript">
+
+            <script type="text/javascript">
                 function simpan() {
                     var kategori_nm = $('#namakategori').val();
                     alert(kategori_nm);

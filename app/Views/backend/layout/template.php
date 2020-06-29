@@ -17,7 +17,12 @@
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../assets/plugins/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="../../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/plugins/datatables.net-bs4/css/responsive.dataTables.min.css">
     <!-- This page CSS -->
+    <!--alerts CSS -->
+    <link href="../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Vector CSS -->
     <link href="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- chartist CSS -->
@@ -91,7 +96,7 @@
 	                   			Pengaturan
 	                   		</a>
 	                   		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="backend/kategori">Kategori Produk</a>
+                                <a class="dropdown-item" href="kategori">Kategori Produk</a>
                                 <a class="dropdown-item" href="#">Sub Kategori Produk</a>
                                 <a class="dropdown-item" href="#">Produk</a>
                             	<a class="dropdown-item" href="#">Diskon</a>
@@ -182,6 +187,12 @@
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
+    <!-- Sweet-Alert  -->
+    <script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="../assets/plugins/sweetalert2/sweet-alert.init.js"></script>
+    <!-- This is data table -->
+    <script src="../../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../../assets/plugins/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
     <!-- Vector map JavaScript -->
     <script src="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="../../assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
@@ -192,6 +203,57 @@
     <script src="../../assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
     <!-- Chart JS -->
     <script src="../../assets/js/dashboard4.js"></script>
+    <script>
+        $(function () {
+            $('#myTable').DataTable();
+            $(document).ready(function () {
+                var table = $('#example').DataTable({
+                    "columnDefs": [{
+                        "visible": false,
+                        "targets": 2
+                    }],
+                    "order": [
+                        [2, 'asc']
+                    ],
+                    "displayLength": 25,
+                    "drawCallback": function (settings) {
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
+                        api.column(2, {
+                            page: 'current'
+                        }).data().each(function (group, i) {
+                            if (last !== group) {
+                                $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                                last = group;
+                            }
+                        });
+                    }
+                });
+                // Order by the grouping
+                $('#example tbody').on('click', 'tr.group', function () {
+                    var currentOrder = table.order()[0];
+                    if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                        table.order([2, 'desc']).draw();
+                    } else {
+                        table.order([2, 'asc']).draw();
+                    }
+                });
+            });
+        });
+        $('#example23').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+        $('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary mr-1');
+        $('#config-table').DataTable({
+            responsive: true
+        });
+    </script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
