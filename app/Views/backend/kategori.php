@@ -90,7 +90,7 @@
                                                 <td><?= $k['created_user'] ?></td>
                                                 <td class="text-center">
                                                     <a href="" onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Edit</span></a> |
-                                                    <a href=""><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a href="" onclick="hapus(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -188,6 +188,48 @@ function showedit(id) {
       //_data = JSON.parse(data);
      $('#modaledit').modal('show');
      $('#modaledit').html(data);
+                },
+                error:function(){
+                    Swal.fire({
+                        title:"Gagal!",
+                        text:"Data gagal disimpan!",
+                        type:"warning",
+                        showCancelButton:!0,
+                        confirmButtonColor:"#556ee6",
+                        cancelButtonColor:"#f46a6a"
+                    })
+                }
+            });
+
+}
+
+function hapus(id) {
+    $.ajax({
+     url : "<?= base_url('kategori/hapus') ?>",
+     type: "post",
+     data : {'id':id},
+     success:function(data){
+      if (_data=='already') {
+                Swal.fire({
+                    title:"Nama kategori sudah ada!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+             } else {
+                Swal.fire({
+                    title:"Berhasil!",
+                    text:"Data berhasil disimpan!",
+                    type:"success",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+                setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
+                }
+            },
                 },
                 error:function(){
                     Swal.fire({
