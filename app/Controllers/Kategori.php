@@ -54,8 +54,42 @@ class Kategori extends BaseController
 			}
 			
 		}
-		
-		
 	}
+
+	public function formedit(){
+		$kategori_id = $this->request->getVar('id');
+		$res = $this->kategorimodel->find($kategori_id);
+		if (count($res)>0) {
+			foreach ($res->getResultArray() as $k) {
+				$ret = "<div class='modal-dialog'>"
+	            . "<div class='modal-content'>"
+	            . "<div class='modal-header'>"
+	            . "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>"
+	            . "<h4 class='modal-title'>Modal Content is Responsive</h4>"
+	            . "</div>"
+	            . "<div class='modal-body'>"
+	            . "<form>"
+	            . "<input type='hidden' value='".$kategori_id."' class='form-control' id='kategori_id'>"
+	            . "<div class='form-group'>"
+	            . "<label for='recipient-name' class='control-label'>Recipient:</label>"
+	            . "<input type='text' class='form-control' id='kategori_nm' value='".$k->kategori_nm."'>"
+	            . "</div>"
+	            . "</form>"
+	            . "</div>"
+	            . "<div class='modal-footer'>"
+	            . "<button type='button' class='btn btn-default waves-effect' data-dismiss='modal'>Close</button>"
+	            . "<button onclick='update(".$kategori_id.")' type='button' class='btn btn-danger waves-effect waves-light'>Simpan</button>"
+	            . "</div>"
+	            . "</div>"
+	            . "</div>";
+	         return $ret;
+			}
+		} else {
+			
+			return 'false';
+		}
+	}
+
+	
 
 }

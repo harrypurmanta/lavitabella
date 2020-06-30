@@ -35,24 +35,22 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                              <form>
                               	<?= csrf_field(); ?>
                                     <div class="form-body">
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Nama Kategori Produk</label>
-                                                    <input type="text" id="namakategori" class="form-control text-uppercase" placeholder="Input disini" required="">
+                                                    <input type="text" id="namakategori" class="form-control" placeholder="Input disini" required="">
                                                     <small class="form-control-feedback"> Contoh : starter, pizza, pasta dll </small> </div>
                                             </div>
                                         </div>
                                        
                                     </div>
                                     <div class="form-actions">
-                                        <button type="button" class="btn btn-success" onclick="simpan()"> <i class="fa fa-check"></i> Save</button>
+                                        <button id="simpankat" type="button" class="btn btn-success" onclick="simpan()"> <i class="fa fa-check"></i> Save</button>
                                         <button type="button" class="btn btn-inverse">Cancel</button>
                                     </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -69,12 +67,12 @@
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Nama Kategori</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Tanggal Entri</th>
+                                                <th class="text-center">Pegawai</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -82,23 +80,34 @@
                                         		$no=1;
                                         		foreach ($kategori as $k) {
                                         	?>
-                                            <tr>
-                                                <td><?= $no++ ?></td>
-                                                <td><?= $k['kategori_nm'] ?></td>
-                                                <td><?= $k['status_cd'] ?></td>
-                                                <td><?= $k['created_dttm'] ?></td>
+
+                                            <tr id="accordian-3">
+                                                <td class="text-center"><?= $no++ ?></td>
+                                                <td><a onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k['kategori_nm'] ?></span></a>
+                                                </td>
+                                                <td class="text-center"><?= $k['status_cd'] ?></td>
+                                                <td class="text-center"><?= $k['created_dttm'] ?></td>
                                                 <td><?= $k['created_user'] ?></td>
-                                                <td>$320,800</td>
+                                                <td class="text-center">
+                                                    <a href="" onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Edit</span></a> |
+                                                    <a href=""><span style="text-decoration:underline;">Hapus</span></a>
+                                                </td>
                                             </tr>
                                         <?php } ?>
+
                                      </tbody>
                                     </table>
+
                                 </div>
                             </div>
+                           
                         </div>
                     </div>
                    
                 </div>
+            </div>
+            <div id="modaledit" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -107,55 +116,84 @@
 
               <script type="text/javascript">
 
-              	
+    var input = document.getElementById("namakategori");
+    
+    input.addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("simpankat").click();
+      }
+    });
 
 
-                function simpan() {
-                    var kategori_nm = $('#namakategori').val();
-                    $.ajax({
-						url : "<?= base_url('kategori/save') ?>",
-						type: "post",
-						data : {'kategori_nm':kategori_nm},
-						success:function(_data){
-							if (_data=='already') {
-								Swal.fire({
-									title:"Nama kategori sudah ada!!",
-									text:"GAGAL!",
-									type:"warning",
-									showCancelButton:!0,
-									confirmButtonColor:"#556ee6",
-									cancelButtonColor:"#f46a6a"
-								})
+    function simpan() {
+        var kategori_nm = $('#namakategori').val();
+        if (kategori_nm=='') {
 
-							} else {
-								Swal.fire({
-									title:"Berhasil!",
-									text:"Data berhasil disimpan!",
-									type:"success",
-									showCancelButton:!0,
-									confirmButtonColor:"#556ee6",
-									cancelButtonColor:"#f46a6a"
-								})
-								window.location.href = "<?=base_url()?>/kategori";
-							}
-							
-
-
-		                   
-		                   
-						},
-						error:function(){
-							Swal.fire({
-								title:"Gagal!",
-								text:"Data gagal disimpan!",
-								type:"warning",
-								showCancelButton:!0,
-								confirmButtonColor:"#556ee6",
-								cancelButtonColor:"#f46a6a"
-							})
-						}
-					});
+        } else {
+            $.ajax({
+            url : "<?= base_url('kategori/save') ?>",
+            type: "post",
+            data : {'kategori_nm':kategori_nm},
+            success:function(_data){
+             if (_data=='already') {
+                Swal.fire({
+                    title:"Nama kategori sudah ada!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+             } else {
+                Swal.fire({
+                    title:"Berhasil!",
+                    text:"Data berhasil disimpan!",
+                    type:"success",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+                setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
                 }
+            },
+            error:function(){
+                Swal.fire({
+                    title:"Gagal!",
+                    text:"Data gagal disimpan!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+            }
+            });
+        }
+}
 
-            </script>
+function showedit(id) {
+    $.ajax({
+     url : "<?= base_url('kategori/formedit') ?>",
+     type: "post",
+     data : {'id':id},
+     success:function(data){
+      //_data = JSON.parse(data);
+     $('#modaledit').modal('show');
+     $('#modaledit').html(data);
+                },
+                error:function(){
+                    Swal.fire({
+                        title:"Gagal!",
+                        text:"Data gagal disimpan!",
+                        type:"warning",
+                        showCancelButton:!0,
+                        confirmButtonColor:"#556ee6",
+                        cancelButtonColor:"#f46a6a"
+                    })
+                }
+            });
+
+}
+</script>
 <?= $this->endSection(); ?>
