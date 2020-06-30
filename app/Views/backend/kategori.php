@@ -130,7 +130,14 @@
     function simpan() {
         var kategori_nm = $('#namakategori').val();
         if (kategori_nm=='') {
-
+        	Swal.fire({
+                    title:"Nama kategori harus di isi!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
         } else {
             $.ajax({
             url : "<?= base_url('kategori/save') ?>",
@@ -194,6 +201,58 @@ function showedit(id) {
                 }
             });
 
+}
+
+function update(id) {
+	var kategori_nm = $('#kategori_nm').val();
+        if (kategori_nm=='') {
+        	Swal.fire({
+                    title:"Nama kategori harus di isi!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+        } else {
+            $.ajax({
+            url : "<?= base_url('kategori/update') ?>",
+            type: "post",
+            data : {'kategori_nm':kategori_nm,'id':id},
+            success:function(_data){
+             if (_data=='already') {
+                Swal.fire({
+                    title:"Nama kategori sudah ada!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+             } else {
+                Swal.fire({
+                    title:"Berhasil!",
+                    text:"Data berhasil disimpan!",
+                    type:"success",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+                setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
+                }
+            },
+            error:function(){
+                Swal.fire({
+                    title:"Gagal!",
+                    text:"Data gagal disimpan!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+            }
+            });
+        }
 }
 </script>
 <?= $this->endSection(); ?>

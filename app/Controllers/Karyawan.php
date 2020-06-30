@@ -1,39 +1,39 @@
 <?php namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\Kategorimodel;
+use App\Models\Karyawanmodel;
 
-class Kategori extends BaseController
+class Karyawan extends BaseController
 {
 
 	
-	protected $kategorimodel;
+	protected $karyawanmodel;
 	public function __construct(){
 
-		$this->kategorimodel = new Kategorimodel();
+		$this->karyawanmodel = new karyawanmodel();
 
 	}
 
 	public function index() {
 		$data = [
-			'title' => 'Kategori',
-			'subtitle' => 'Kategori',
-			'kategori' => $this->kategorimodel->findAll()
+			'title' => 'Karyawan',
+			'subtitle' => 'Karyawan',
+			'karyawan' => $this->karyawanmodel->findAll()
 		];
-		return view('backend/kategori', $data);
+		return view('backend/karyawan', $data);
 	}
 
 	public function tambahdata(){
 		$data = [
-			'title' => 'Tambah Data Kategori',
-			'subtitle' => 'Tambah Data Kategori'
+			'title' => 'Tambah Data Karyawan',
+			'subtitle' => 'Tambah Data Karyawan'
 		];
-		return view('backend/addkategori', $data);
+		return view('backend/addKaryawan', $data);
 	}
 
 	public function save(){
-		$kategori_nm = $this->request->getVar('kategori_nm');
-		$bykatnm = $this->kategorimodel->getbyKatnm($kategori_nm);
+		$Karyawan_nm = $this->request->getVar('Karyawan_nm');
+		$bykatnm = $this->karyawanmodel->getbyKatnm($Karyawan_nm);
 		if (count($bykatnm)>0) {
 			return 'already';
 		} else {
@@ -41,12 +41,12 @@ class Kategori extends BaseController
 			$session->start();
 			$datenow = date('Y-m-d H:i:s');
 			$data = [
-			'kategori_nm' => $kategori_nm,
+			'Karyawan_nm' => $Karyawan_nm,
 			'created_dttm' => $datenow,
 			'created_user' => $session->user_id
 			];
 
-			$save = $this->kategorimodel->save($data);
+			$save = $this->karyawanmodel->save($data);
 			if ($save) {
 				return true;
 			} else {
@@ -58,8 +58,8 @@ class Kategori extends BaseController
 
 	public function update(){
 		$id = $this->request->getVar('id');
-		$kategori_nm = $this->request->getVar('kategori_nm');
-		$bykatnm = $this->kategorimodel->getbyKatnm($kategori_nm);
+		$Karyawan_nm = $this->request->getVar('Karyawan_nm');
+		$bykatnm = $this->karyawanmodel->getbyKatnm($Karyawan_nm);
 
 		if (count($bykatnm)>0) {
 			return 'already';
@@ -68,12 +68,12 @@ class Kategori extends BaseController
 			$session->start();
 			$datenow = date('Y-m-d H:i:s');
 			$data = [
-			'kategori_nm' => $kategori_nm,
+			'Karyawan_nm' => $Karyawan_nm,
 			'updated_dttm' => $datenow,
 			'updated_user' => $session->user_id
 			];
 
-			$save = $this->kategorimodel->update($id,$data);
+			$save = $this->karyawanmodel->update($id,$data);
 			if ($save) {
 				return true;
 			} else {
@@ -83,8 +83,8 @@ class Kategori extends BaseController
 	}
 
 	public function formedit(){
-		$kategori_id = $this->request->getVar('id');
-		$res = $this->kategorimodel->find($kategori_id);
+		$Karyawan_id = $this->request->getVar('id');
+		$res = $this->karyawanmodel->find($Karyawan_id);
 		if (count($res)>0) {
 				$ret = "<div class='modal-dialog'>"
 	            . "<div class='modal-content'>"
@@ -94,16 +94,16 @@ class Kategori extends BaseController
 	            . "</div>"
 	            . "<div class='modal-body'>"
 	            . "<form>"
-	            . "<input type='hidden' value='".$kategori_id."' class='form-control' id='kategori_id'>"
+	            . "<input type='hidden' value='".$Karyawan_id."' class='form-control' id='Karyawan_id'>"
 	            . "<div class='form-group'>"
-	            . "<label for='recipient-name' class='control-label'>Nama Kategori</label>"
-	            . "<input type='text' class='form-control' id='kategori_nm' value='".$res['kategori_nm']."'>"
+	            . "<label for='recipient-name' class='control-label'>Nama Karyawan</label>"
+	            . "<input type='text' class='form-control' id='Karyawan_nm' value='".$res['Karyawan_nm']."'>"
 	            . "</div>"
 	            . "</form>"
 	            . "</div>"
 	            . "<div class='modal-footer'>"
 	            . "<button type='button' class='btn btn-default waves-effect' data-dismiss='modal'>Close</button>"
-	            . "<button onclick='update(".$kategori_id.")' type='button' class='btn btn-danger waves-effect waves-light'>Simpan</button>"
+	            . "<button onclick='update(".$Karyawan_id.")' type='button' class='btn btn-danger waves-effect waves-light'>Simpan</button>"
 	            . "</div>"
 	            . "</div>"
 	            . "</div>";

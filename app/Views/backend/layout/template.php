@@ -13,7 +13,6 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <title><?= $title; ?></title>
-	<link rel="canonical" href="https://www.wrappixel.com/templates/adminpro/" />
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../assets/plugins/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" rel="stylesheet">
@@ -23,11 +22,6 @@
     <!-- This page CSS -->
     <!--alerts CSS -->
     <link href="../../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-    <!-- Vector CSS -->
-    <link href="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
-    <!-- chartist CSS -->
-    <link href="../../assets/plugins/chartist-js/dist/chartist.min.css" rel="stylesheet">
-    <link href="../../assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../../assets/css/style.css" rel="stylesheet">
     <!-- Dashboard 1 Page CSS -->
@@ -103,6 +97,7 @@
                             	<a class="dropdown-item" href="#">Cara Bayar</a>
                             	<a class="dropdown-item" href="#">Tipe Member</a>
                             	<a class="dropdown-item" href="#">Meja</a>
+                                <a class="dropdown-item" href="karyawan">Karyawan</a>
                         	</div>
                         </li>
                         <li class="nav-item"> 
@@ -193,16 +188,8 @@
     <!-- This is data table -->
     <script src="../../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../../assets/plugins/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
-    <!-- Vector map JavaScript -->
-    <script src="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="../../assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
     <!--sparkline JavaScript -->
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!--morris JavaScript -->
-    <script src="../../assets/plugins/chartist-js/dist/chartist.min.js"></script>
-    <script src="../../assets/plugins/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-    <!-- Chart JS -->
-    <script src="../../assets/js/dashboard4.js"></script>
     <script>
         $(function () {
             $('#myTable').DataTable();
