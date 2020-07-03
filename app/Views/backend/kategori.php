@@ -208,40 +208,30 @@ function hapus(id) {
      url : "<?= base_url('kategori/hapus') ?>",
      type: "post",
      data : {'id':id},
-     success:function(data){
-      if (_data=='already') {
-                Swal.fire({
-                    title:"Nama kategori sudah ada!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-             } else {
-                Swal.fire({
-                    title:"Berhasil!",
-                    text:"Data berhasil disimpan!",
-                    type:"success",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-                setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
-                }
-            },
-                },
-                error:function(){
-                    Swal.fire({
-                        title:"Gagal!",
-                        text:"Data gagal disimpan!",
-                        type:"warning",
-                        showCancelButton:!0,
-                        confirmButtonColor:"#556ee6",
-                        cancelButtonColor:"#f46a6a"
-                    })
-                }
-            });
+     success:function(){
+      
+        Swal.fire({
+            title:"Berhasil!",
+            text:"Data berhasil disimpan!",
+            type:"success",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+        })
+        setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
+    
+     },
+     error:function(){
+        Swal.fire({
+            title:"Gagal!",
+            text:"Data gagal disimpan!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+        })
+     }
+    });
 
 }
 

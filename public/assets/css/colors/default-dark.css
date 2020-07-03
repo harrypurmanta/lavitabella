@@ -25,7 +25,7 @@ File: scss
   .topbar .top-navbar .navbar-nav > .nav-item > span {
     color: #398bf7; }
   .topbar .navbar-light .navbar-nav .nav-item > a.nav-link {
-    color: #a6b7bf; }
+    color: #000000; }
     .topbar .navbar-light .navbar-nav .nav-item > a.nav-link:hover, .topbar .navbar-light .navbar-nav .nav-item > a.nav-link:focus {
       color: #242a33 !important; }
 

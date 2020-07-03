@@ -23,4 +23,13 @@ class Kategorimodel extends Model
 
         return $kategori_nm;
     }
+
+    public function getbyNormal() {
+        $this->kategorimodel = new Kategorimodel();
+        
+        $kategori = $this->kategorimodel->where('status_cd', 'normal')
+                            ->findAll();
+
+        return $kategori;
+    }
 }

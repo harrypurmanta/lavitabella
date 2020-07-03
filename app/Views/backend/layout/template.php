@@ -20,6 +20,7 @@
         href="../../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../../assets/plugins/datatables.net-bs4/css/responsive.dataTables.min.css">
     <!-- This page CSS -->
+    
     <!--alerts CSS -->
     <link href="../../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -90,14 +91,14 @@
 	                   			Pengaturan
 	                   		</a>
 	                   		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="kategori">Kategori Produk</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/kategori">Kategori Produk</a>
                                 <a class="dropdown-item" href="#">Sub Kategori Produk</a>
                                 <a class="dropdown-item" href="#">Produk</a>
                             	<a class="dropdown-item" href="#">Diskon</a>
                             	<a class="dropdown-item" href="#">Cara Bayar</a>
                             	<a class="dropdown-item" href="#">Tipe Member</a>
                             	<a class="dropdown-item" href="#">Meja</a>
-                                <a class="dropdown-item" href="karyawan">Karyawan</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/karyawan">Karyawan</a>
                         	</div>
                         </li>
                         <li class="nav-item"> 

@@ -8,9 +8,12 @@ class Kategori extends BaseController
 
 	
 	protected $kategorimodel;
+	protected $session;
 	public function __construct(){
 
 		$this->kategorimodel = new Kategorimodel();
+		$this->session = \Config\Services::session();
+		$this->session->start();
 
 	}
 
@@ -18,7 +21,7 @@ class Kategori extends BaseController
 		$data = [
 			'title' => 'Kategori',
 			'subtitle' => 'Kategori',
-			'kategori' => $this->kategorimodel->findAll()
+			'kategori' => $this->kategorimodel->getbyNormal()
 		];
 		return view('backend/kategori', $data);
 	}
@@ -37,13 +40,12 @@ class Kategori extends BaseController
 		if (count($bykatnm)>0) {
 			return 'already';
 		} else {
-			$session = \Config\Services::session();
-			$session->start();
+			
 			$datenow = date('Y-m-d H:i:s');
 			$data = [
 			'kategori_nm' => $kategori_nm,
 			'created_dttm' => $datenow,
-			'created_user' => $session->user_id
+			'created_user' => $this->session->user_id
 			];
 
 			$save = $this->kategorimodel->save($data);
@@ -59,18 +61,14 @@ class Kategori extends BaseController
 	public function update(){
 		$id = $this->request->getVar('id');
 		$kategori_nm = $this->request->getVar('kategori_nm');
-		$bykatnm = $this->kategorimodel->getbyKatnm($kategori_nm);
-
-		if (count($bykatnm)>0) {
-			return 'already';
-		} else {
-			$session = \Config\Services::session();
-			$session->start();
+		
+			// $session = \Config\Services::session();
+			// $session->start();
 			$datenow = date('Y-m-d H:i:s');
 			$data = [
 			'kategori_nm' => $kategori_nm,
 			'updated_dttm' => $datenow,
-			'updated_user' => $session->user_id
+			'updated_user' => $this->session->user_id
 			];
 
 			$save = $this->kategorimodel->update($id,$data);
@@ -79,7 +77,7 @@ class Kategori extends BaseController
 			} else {
 				return false;
 			}
-		}
+		
 	}
 
 	public function formedit(){
@@ -111,6 +109,25 @@ class Kategori extends BaseController
 		} else {
 			
 			return 'false';
+		}
+	}
+
+	public function hapus(){
+		$id = $this->request->getVar('id');
+		$session = \Config\Services::session();
+		$session->start();
+		$datenow = date('Y-m-d H:i:s');
+		$data = [
+		'status_cd' => 'nullified',
+		'nullified_dttm' => $datenow,
+		'nullified_user' => $this->session->user_id
+		];
+
+		$update = $this->kategorimodel->update($id,$data);
+		if ($save) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
