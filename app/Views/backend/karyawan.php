@@ -116,7 +116,7 @@
 
 
     function clickpatient(id){
-        window.location.href = "<?=base_url()?>karyawan/formdaftarkaryawan/"+id;
+        window.location.href = "<?=base_url()?>/karyawan/formdaftarkaryawan/"+id;
     }
 
 

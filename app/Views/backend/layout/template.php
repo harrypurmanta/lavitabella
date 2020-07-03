@@ -192,6 +192,8 @@
     <!--sparkline JavaScript -->
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <script>
+      
+        
         $(function () {
             $('#myTable').DataTable();
             $(document).ready(function () {

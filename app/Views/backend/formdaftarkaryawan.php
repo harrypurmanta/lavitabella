@@ -1,5 +1,8 @@
  
 <?= $this->extend('backend/layout/template'); 
+
+use CodeIgniter\HTTP\IncomingRequest;
+$request = service('request');
 ?>
     
 
@@ -41,8 +44,8 @@
                                 
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs customtab2" role="tablist">
-                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#account" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Account</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab" onclick="profile(<?= $request->uri->getPath(3); ?>)"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#account" role="tab" onclick="account(<?= $request->uri->getPath(3); ?>)"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Account</span></a> </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#setting" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Setting</span></a> </li>
                                 </ul>
                                 <!-- Tab panes -->
@@ -61,9 +64,59 @@
 
 			</div>
 		</div>
-
+<script src="../../assets/plugins/jquery/jquery.min.js"></script>
 		<script type="text/javascript">
+$(document).ready(function() {
+	var id = <?= $id ?>;
+	profile(id);                
+});
+
+
+function profile(id){
+	 $.ajax({
+                url : "<?= base_url();?>/karyawan/profiletab",
+                type: "post",
+                data : {'id':id},
+                success:function(data){
+                    $('#profile').html(data);
+                },
+                error:function(){
+                Swal.fire({
+                 title:"Gagal!",
+                 text:"Data gagal disimpan!",
+                 type:"warning",
+                 showCancelButton:!0,
+                 confirmButtonColor:"#556ee6",
+                 cancelButtonColor:"#f46a6a"
+                 })
+                }
+              });
+}
+
+function account(id){
+	 $.ajax({
+                url : "<?= base_url();?>/karyawan/accounttab",
+                type: "post",
+                data : {'id':id},
+                success:function(data){
+                    $('#account').html(data);
+                },
+                error:function(){
+                Swal.fire({
+                 title:"Gagal!",
+                 text:"Data gagal disimpan!",
+                 type:"warning",
+                 showCancelButton:!0,
+                 confirmButtonColor:"#556ee6",
+                 cancelButtonColor:"#f46a6a"
+                 })
+                }
+              });
+}
+
+
 function simpan() {
+	var person_id = $('#person_id').val();
         var person_nm = $('#person_nm').val();
         var ext_id = $('#ext_id').val();
         var gender_cd = $('#gender_cd').val();
@@ -84,7 +137,7 @@ function simpan() {
             $.ajax({
             url : "<?= base_url('karyawan/save') ?>",
             type: "post",
-            data : {'person_nm':person_nm,'ext_id':ext_id,'gender_cd':gender_cd,'birth_dttm':birth_dttm,'birth_place':birth_place,'cellphone':cellphone,'addr_txt':addr_txt},
+            data : {'person_id':person_id,'person_nm':person_nm,'ext_id':ext_id,'gender_cd':gender_cd,'birth_dttm':birth_dttm,'birth_place':birth_place,'cellphone':cellphone,'addr_txt':addr_txt},
             success:function(_data){
              if (_data=='already') {
                 Swal.fire({
@@ -120,5 +173,6 @@ function simpan() {
             });
         }
 }
+
 		</script>
                 <?= $this->endSection(); ?>

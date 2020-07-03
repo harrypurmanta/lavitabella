@@ -36,6 +36,17 @@ class Karyawanmodel extends Model
         return $query->getResult();
     }
 
+    public function getbyId($id){
+        $db = db_connect('default');
+        $builder = $db->table('person a');
+        $builder->select('*');
+        $builder->join('employee b', 'b.person_id = a.person_id','left');
+        $builder->where('a.person_id',$id);
+        $query = $builder->get();
+        return $query->getResult();
+
+    }
+
     public function simpan($data){
         $db = db_connect('default'); 
         $builder = $db->table('person');
