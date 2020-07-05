@@ -22,4 +22,14 @@ class Usersmodel extends Model
 
         return $users;
     }
+
+    public function getbyId($id){
+        $db = db_connect('default');
+        $builder = $db->table('person a');
+        $builder->select('*');
+        $builder->join('users b', 'b.person_id = a.person_id','left');
+        $builder->where('a.person_id',$id);
+        $query = $builder->get();
+        return $query->getResult();
+    }
 }

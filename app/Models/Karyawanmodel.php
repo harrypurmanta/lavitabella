@@ -44,7 +44,6 @@ class Karyawanmodel extends Model
         $builder->where('a.person_id',$id);
         $query = $builder->get();
         return $query->getResult();
-
     }
 
     public function simpan($data){

@@ -44,8 +44,8 @@ $request = service('request');
                                 
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs customtab2" role="tablist">
-                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab" onclick="profile(<?= $request->uri->getPath(3); ?>)"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#account" role="tab" onclick="account(<?= $request->uri->getPath(3); ?>)"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Account</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab" onclick="profile(<?= $id ?>)"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Profile</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#account" role="tab" onclick="account(<?= $id ?>)"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Account</span></a> </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#setting" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Setting</span></a> </li>
                                 </ul>
                                 <!-- Tab panes -->
@@ -71,6 +71,79 @@ $(document).ready(function() {
 	profile(id);                
 });
 
+function formtambahuser(id){
+        var user_nm = $('#user_nm').val();
+        var pwd0 = $('#pwd0').val();
+        if (user_nm==''||pwd0=='') {
+        	Swal.fire({
+                    title:"username & Password harus di isi!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+        } else {
+            $.ajax({
+            url : "<?= base_url('users/save') ?>",
+            type: "post",
+            data : {'user_nm':user_nm,'pwd0':pwd0},
+            success:function(_data){
+             if (_data=='already') {
+                Swal.fire({
+                    title:"Nomor Identitas sudah ada!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+             } else {
+                Swal.fire({
+                    title:"Berhasil!",
+                    text:"Data berhasil disimpan!",
+                    type:"success",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+                // setTimeout(function(){ window.location.href = "<?=base_url()?>/karyawan/formdaftarkaryawan"; }, 1000);
+                }
+            },
+            error:function(){
+                Swal.fire({
+                    title:"Gagal!",
+                    text:"Data gagal disimpan!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+            }
+            });
+        }
+}
+
+function formtambahuser(id){
+	$.ajax({
+        url : "<?= base_url();?>/karyawan/formtambahuser",
+        type: "post",
+        data : {'id':id},
+        success:function(data){
+                    $('#account').html(data);
+                },
+                error:function(){
+                Swal.fire({
+                 title:"Gagal!",
+                 text:"Data gagal disimpan!",
+                 type:"warning",
+                 showCancelButton:!0,
+                 confirmButtonColor:"#556ee6",
+                 cancelButtonColor:"#f46a6a"
+                 })
+                }
+              });
+}
 
 function profile(id){
 	 $.ajax({

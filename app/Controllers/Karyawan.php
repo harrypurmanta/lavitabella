@@ -3,15 +3,16 @@
 use CodeIgniter\Controller;
 use App\Models\Karyawanmodel;
 use App\Models\Employeemodel;
-
+use App\Models\Usersmodel;
 class Karyawan extends BaseController
 {
 
 	
 	protected $karyawanmodel;
 	protected $employeemodel;
+	protected $usersmodel;
 	public function __construct(){
-
+		$this->usersmodel = new Usersmodel();
 		$this->karyawanmodel = new Karyawanmodel();
 		$this->employeemodel = new Employeemodel();
 
@@ -244,13 +245,11 @@ class Karyawan extends BaseController
 
 	public function accounttab(){
 		$id = $this->request->getVar('id');
-		$res = $this->karyawanmodel->getbyId($id);
+		$res = $this->usersmodel->getbyId($id);
 		$ret = "";
-		foreach ($res as $key) {
-		list($dt,$dd) = explode(' ',$key->birth_dttm);
-		$newDate = date("m-d-Y", strtotime($dt));
-		$date = str_replace('-','/',$newDate);
+	foreach ($res as $key) {
 
+		if ($key->user_nm!='') {
 		$ret = "<div class='p-20'>"
                 . "<form action='#' class='form-horizontal'>"
                 . "<div class='form-body'>"
@@ -259,79 +258,23 @@ class Karyawan extends BaseController
                 . "<div class='row'>"
                 . "<div class='col-md-6'>"
                 . "<div class='form-group row'>"
-                . "<label class='control-label text-right col-md-3'>Nama Lengkap</label>"
+                . "<label class='control-label text-right col-md-3'>Username</label>"
                 . "<div class='col-md-9'>"
                 . "<input type='hidden' value='$id' id='person_id'/>"
-                . "<input type='text' class='form-control' id='person_nm' value='$key->person_nm'>"
+                . "<input type='text' class='form-control' id='person_nm' value='$key->user_nm'>"
                 . "</div>"
                 . "</div>"
                 . "</div>"
                 . "<!--/span-->"
                 . "<div class='col-md-6'>"
                 . "<div class='form-group has-danger row'>"
-                . "<label class='control-label text-right col-md-3'>Nomor Identitas</label>"
+                . "<label class='control-label text-right col-md-3'>Password</label>"
                 . "<div class='col-md-9'>"
-                . "<input type='text' class='form-control' id='ext_id' value='$key->ext_id'>"
+                . "<input type='password' class='form-control' id='ext_id' value='$key->pwd0'>"
                 . "</div>"
                 . "</div>"
                 . "</div>"
                 . "<!--/span-->"
-                . "</div>"
-                . "<!--/row-->"
-                . "<div class='row'>"
-                . "<div class='col-md-6'>"
-                . "<div class='form-group row'>"
-                . "<label class='control-label text-right col-md-3'>Jenis Kelamin</label>"
-                . "<div class='col-md-9'>"
-                . "<select class='form-control custom-select' id='gender_cd'>"
-                . "<option value='m'>Laki-laki</option>"
-                . "<option value='f'>Perempuan</option>"
-                . "</select>"
-                . "</div>"
-                . "</div>"
-                . "</div>"
-                . "<!--/span-->"
-                . "<div class='col-md-6'>"
-                . "<div class='form-group row'>"
-                . "<label class='control-label text-right col-md-3'>Tanggal Lahir</label>"
-                . "<div class='col-md-9'>"
-                . "<span class='control-label'>$date</span>"
-                . "<input type='date' class='form-control' id='birth_dttm' value='$date'>"
-                . "</div>"
-                . "</div>"
-                . "</div>"
-                . "<!--/span-->"
-                . "</div>"
-                . "<!--/row-->"
-                . "<div class='row'>"
-                . "<div class='col-md-6'>"
-                . "<div class='form-group row'>"
-                . "<label class='control-label text-right col-md-3'>Tempat Lahir</label>"
-                . "<div class='col-md-9'>"
-                . "<input type='text' class='form-control' id='birth_place' value='$key->birth_place'>"
-                . "</div>"
-                . "</div>"
-                . "</div>"
-                . "<!--/span-->"
-                . "<div class='col-md-6'>"
-                . "<div class='form-group row'>"
-                . "<label class='control-label text-right col-md-3'>No. Telp</label>"
-                . "<div class='col-md-9'>"
-                . "<input type='text' class='form-control' id='cellphone' value='$key->cellphone'>"
-                . "</div>"
-                . "</div>"
-                . "</div>"
-                . "<!--/span-->"
-                . "</div>"
-                . "<div class='row'>"
-                . "<div class='col-md-9'>"
-                . "<div class='form-group row'>"
-                . "<label class='control-label text-right col-md-3'>Alamat</label>"
-                . "<div class='col-md-9'>"
-                . "<textarea type='text' class='form-control' id='addr_txt'>$key->addr_txt</textarea>"
-                . "</div>"
-                . "</div>"
-                . "</div>"
                 . "</div>"
                 . "</div>"
                 . "<hr>"
@@ -340,7 +283,7 @@ class Karyawan extends BaseController
                 . "<div class='col-md-6'>"
                 . "<div class='row'>"
                 . "<div class='col-md-offset-3 col-md-9'>"
-                . "<button onclick='simpan()' type='button' class='btn btn-success'>Submit</button> " 
+                . "<button onclick='simpanuser()' type='button' class='btn btn-success'>Submit</button> " 
                 . "<button type='button' class='btn btn-inverse'>Cancel</button>"
                 . "</div>"
                 . "</div>"
@@ -350,8 +293,63 @@ class Karyawan extends BaseController
                 . "</div>"
                 . "</form>"
                 . "</div>";
+        	
+			} else {
+				$ret = "<button onclick='formtambahuser($id)'>Tambah User</button>";
+			}
+		}
+         return $ret;
+        
+	}
 
-        }
+	public function formtambahuser(){
+		$id = $this->request->getVar('id');
+
+		$ret = "<div class='p-20'>"
+                . "<form action='#' class='form-horizontal'>"
+                . "<div class='form-body'>"
+                . "<h3 class='box-title'>Person Info</h3>"
+                . "<hr class='m-t-0 m-b-40'>"
+                . "<div class='row'>"
+                . "<div class='col-md-6'>"
+                . "<div class='form-group row'>"
+                . "<label class='control-label text-right col-md-3'>Username</label>"
+                . "<div class='col-md-9'>"
+                . "<input type='hidden' value='$id' id='person_id'/>"
+                . "<input type='text' class='form-control' id='user_nm'>"
+                . "</div>"
+                . "</div>"
+                . "</div>"
+                . "<!--/span-->"
+                . "<div class='col-md-6'>"
+                . "<div class='form-group has-danger row'>"
+                . "<label class='control-label text-right col-md-3'>Password</label>"
+                . "<div class='col-md-9'>"
+                . "<input type='password' class='form-control' id='pwd0'>"
+                . "</div>"
+                . "</div>"
+                . "</div>"
+                . "<!--/span-->"
+                . "</div>"
+                . "</div>"
+                . "<hr>"
+                . "<div class='form-actions'>"
+                . "<div class='row'>"
+                . "<div class='col-md-6'>"
+                . "<div class='row'>"
+                . "<div class='col-md-offset-3 col-md-9'>"
+                . "<button onclick='simpanuser($id)' type='button' class='btn btn-success'>Submit</button> " 
+                . "<button type='button' class='btn btn-inverse'>Cancel</button>"
+                . "</div>"
+                . "</div>"
+                . "</div>"
+                . "<div class='col-md-6'> </div>"
+                . "</div>"
+                . "</div>"
+                . "</form>"
+                . "</div>";
+        
+		
          return $ret;
         
 	}
