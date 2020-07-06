@@ -71,7 +71,7 @@ $(document).ready(function() {
 	profile(id);                
 });
 
-function formtambahuser(id){
+function simpanuser(id){
         var user_nm = $('#user_nm').val();
         var pwd0 = $('#pwd0').val();
         if (user_nm==''||pwd0=='') {
@@ -87,7 +87,7 @@ function formtambahuser(id){
             $.ajax({
             url : "<?= base_url('users/save') ?>",
             type: "post",
-            data : {'user_nm':user_nm,'pwd0':pwd0},
+            data : {'user_nm':user_nm,'pwd0':pwd0,'id':id},
             success:function(_data){
              if (_data=='already') {
                 Swal.fire({

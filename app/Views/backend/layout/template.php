@@ -92,17 +92,17 @@
 	                   		</a>
 	                   		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="<?=base_url() ?>/kategori">Kategori Produk</a>
-                                <a class="dropdown-item" href="#">Sub Kategori Produk</a>
-                                <a class="dropdown-item" href="#">Produk</a>
-                            	<a class="dropdown-item" href="#">Diskon</a>
-                            	<a class="dropdown-item" href="#">Cara Bayar</a>
-                            	<a class="dropdown-item" href="#">Tipe Member</a>
-                            	<a class="dropdown-item" href="#">Meja</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/subkat">Sub Kategori Produk</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/produk">Produk</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/diskon">Diskon</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/carabayar">Cara Bayar</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/tipemember">Tipe Member</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/meja">Meja</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/karyawan">Karyawan</a>
                         	</div>
                         </li>
                         <li class="nav-item"> 
-	                   		<a class="nav-link" href="#">
+	                   		<a class="nav-link" href="<?=base_url() ?>/member">
 	                   			<span class="hide-menu">Member </span>
 	                   		</a>
                         </li>
