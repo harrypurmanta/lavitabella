@@ -383,6 +383,16 @@ class Kategori extends BaseController
 
 	public function hapus(){
 		$id = $this->request->getVar('id');
+		$type = $this->request->getVar('t');
+		if ($type == 'kategori') {
+			$tables = 'kategori_produk';
+			$key    = 'kategori_id';
+		} else if ($type == 'options' || $type == 'child') {
+			$tables = 'options';
+			$key    = 'option_id';
+		}
+		
+
 		$datenow = date('Y-m-d H:i:s');
 		$data = [
 		'status_cd' => 'nullified',
@@ -390,14 +400,11 @@ class Kategori extends BaseController
 		'nullified_user' => $this->session->user_id
 		];
 
-		$update = $this->kategorimodel->update($id,$data);
-		if ($save) {
+		$update = $this->kategorimodel->hapus($id,$data,$tables,$key);
+		if ($update) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-	
-
 }

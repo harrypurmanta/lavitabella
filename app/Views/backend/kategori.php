@@ -98,7 +98,7 @@
                                                 <td><?= $k['created_user'] ?></td>
                                                 <td class="text-center">
                                                     <a onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="hapus(<?= $k['kategori_id'] ?>,'kategori')"><span style="text-decoration:underline;">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -217,11 +217,11 @@ function showedit(id) {
     });
 }
 
-function hapus(id) {
+function hapus(id,t) {
     $.ajax({
      url : "<?= base_url('kategori/hapus') ?>",
      type: "post",
-     data : {'id':id},
+     data : {'id':id,'t':t},
      success:function(){
       
         Swal.fire({

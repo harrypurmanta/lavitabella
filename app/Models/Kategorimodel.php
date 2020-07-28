@@ -96,4 +96,8 @@ class Kategorimodel extends Model
     public function updatechild($id,$data){
         return $this->db->table('options')->where('option_id',$id)->set($data)->update();
     }
+
+    public function hapus($id,$data,$tables,$key){
+        return $this->db->table($tables)->where($key,$id)->set($data)->update();
+    }
 }
