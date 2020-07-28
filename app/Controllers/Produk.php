@@ -28,6 +28,22 @@ class Produk extends BaseController
 		return view('backend/produk', $data);
 	}
 
+	public function listmenu() {
+		$kategori = $this->kategorimodel->getbyNormal();
+		$itemlist = "";
+		foreach ($kategori as $key) {
+			
+		}
+		
+
+		$data = [
+			'title' => 'meja',
+			'subtitle' => 'meja',
+			'kategori' => $kategori
+		];
+		return view('frontend/listmenu', $data);
+	}
+
 
 	public function save(){
 		$produk_nm = $this->request->getVar('produk_nm');

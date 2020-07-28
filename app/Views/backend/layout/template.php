@@ -15,18 +15,15 @@
     <title><?= $title; ?></title>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../assets/plugins/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
         href="../../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../../assets/plugins/datatables.net-bs4/css/responsive.dataTables.min.css">
     <!-- This page CSS -->
-    
+    <link rel="stylesheet" href="../../assets/plugins/dropify/dist/css/dropify.min.css">
     <!--alerts CSS -->
     <link href="../../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../../assets/css/style.css" rel="stylesheet">
-    <!-- Dashboard 1 Page CSS -->
-    <link href="../../assets/css/pages/dashboard4.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="../../assets/css/colors/default-dark.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -93,18 +90,29 @@
 	                   		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="<?=base_url() ?>/kategori">Kategori Produk</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/subkat">Sub Kategori Produk</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/kategori/option">Kategori Options</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/produk">Produk</a>
-                            	<a class="dropdown-item" href="<?=base_url() ?>/diskon">Diskon</a>
-                            	<a class="dropdown-item" href="<?=base_url() ?>/carabayar">Cara Bayar</a>
-                            	<a class="dropdown-item" href="<?=base_url() ?>/tipemember">Tipe Member</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/discount">Diskon</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/payplan">Cara Bayar</a>
+                            	<a class="dropdown-item" href="<?=base_url() ?>/membertype">Tipe Member</a>
                             	<a class="dropdown-item" href="<?=base_url() ?>/meja">Meja</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/karyawan">Karyawan</a>
                         	</div>
                         </li>
                         <li class="nav-item"> 
+                            <a class="nav-link" href="<?=base_url() ?>/produk/listmenu">
+                                <span class="hide-menu">Menu Item </span>
+                            </a>
+                        </li>
+                        <li class="nav-item"> 
 	                   		<a class="nav-link" href="<?=base_url() ?>/member">
 	                   			<span class="hide-menu">Member </span>
 	                   		</a>
+                        </li>
+                        <li class="nav-item"> 
+                            <a class="nav-link" href="#">
+                                <span class="hide-menu">Laporan </span>
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav my-lg-0">
@@ -191,9 +199,10 @@
     <script src="../../assets/plugins/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
     <!--sparkline JavaScript -->
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jQuery file upload -->
+    <script src="../../assets/plugins/dropify/dist/js/dropify.min.js"></script>
     <script>
       
-        
         $(function () {
             $('#myTable').DataTable();
             $(document).ready(function () {

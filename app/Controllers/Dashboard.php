@@ -13,4 +13,11 @@ class Dashboard extends BaseController
 		return view('backend/dashboard', $data);
 	}
 
+	public function error() {
+		$data = [
+			'title' => 'Error Dashboard'
+		];
+		return view('erros/cli/error_exception');
+	}
+
 }

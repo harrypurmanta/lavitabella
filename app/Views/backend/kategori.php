@@ -1,6 +1,5 @@
 <?= $this->extend('backend/layout/template'); 
 ?>
-    
 
     <?= $this->section('content'); ?>
         <!-- ============================================================== -->
@@ -36,13 +35,20 @@
                         <div class="card">
                             <div class="card-body">
                               	<?= csrf_field(); ?>
+                                <form id="upload-file" method="post" enctype="multipart/form-data">
                                     <div class="form-body">
                                         <div class="row p-t-20">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Nama Kategori Produk</label>
-                                                    <input type="text" id="namakategori" class="form-control" placeholder="Input disini" required="">
+                                                    <input type="text" id="namakategori" name="kategori_nm" class="form-control" placeholder="Input disini" required="">
                                                     <small class="form-control-feedback"> Contoh : starter, pizza, pasta dll </small> </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Gambar :</label>
+                                                    <input type="file" name="photo[]" class="dropify fotokategori" multiple="" />
+                                                </div>
                                             </div>
                                         </div>
                                        
@@ -51,6 +57,8 @@
                                         <button id="simpankat" type="button" class="btn btn-success" onclick="simpan()"> <i class="fa fa-check"></i> Save</button>
                                         <button type="button" class="btn btn-inverse">Cancel</button>
                                     </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -89,8 +97,8 @@
                                                 <td class="text-center"><?= $k['created_dttm'] ?></td>
                                                 <td><?= $k['created_user'] ?></td>
                                                 <td class="text-center">
-                                                    <a href="" onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Edit</span></a> |
-                                                    <a href="" onclick="hapus(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
+                                                    <a onclick="hapus(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -103,11 +111,10 @@
                            
                         </div>
                     </div>
-                   
                 </div>
             </div>
             <div id="modaledit" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                    
+                              
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -117,7 +124,6 @@
               <script type="text/javascript">
 
     var input = document.getElementById("namakategori");
-    
     input.addEventListener("keyup", function(event) {
       // Number 13 is the "Enter" key on the keyboard
       if (event.keyCode === 13) {
@@ -128,21 +134,29 @@
 
 
     function simpan() {
-        var kategori_nm = $('#namakategori').val();
+        var kategori_nm = $("input[name^='kategori_nm']").val();
         if (kategori_nm=='') {
         	Swal.fire({
-                    title:"Nama kategori harus di isi!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
+            title:"Nama kategori harus di isi!!",
+            text:"GAGAL!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
                 })
         } else {
+             var ajaxData = new FormData();
+             ajaxData.append('action','upload-file');
+             jQuery.each($("input[name^='photo']")[0].files, function(i, file) {
+                ajaxData.append('photo['+i+']', file);
+              });
+             ajaxData.append('kategori_nm',kategori_nm);
             $.ajax({
             url : "<?= base_url('kategori/save') ?>",
-            type: "post",
-            data : {'kategori_nm':kategori_nm},
+            type: "POST",
+            data : ajaxData,
+            contentType: false,
+            processData: false,
             success:function(_data){
              if (_data=='already') {
                 Swal.fire({
@@ -162,7 +176,8 @@
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-                setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
+                 $( "#myTable" ).load("<?= base_url('kategori') ?> #myTable");
+               // setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
                 }
             },
             error:function(){
@@ -188,19 +203,18 @@ function showedit(id) {
       //_data = JSON.parse(data);
      $('#modaledit').modal('show');
      $('#modaledit').html(data);
-                },
-                error:function(){
-                    Swal.fire({
-                        title:"Gagal!",
-                        text:"Data gagal disimpan!",
-                        type:"warning",
-                        showCancelButton:!0,
-                        confirmButtonColor:"#556ee6",
-                        cancelButtonColor:"#f46a6a"
-                    })
-                }
-            });
-
+    },
+    error:function(){
+        Swal.fire({
+            title:"Gagal!",
+            text:"Data gagal disimpan!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+        })
+    }
+    });
 }
 
 function hapus(id) {
@@ -237,6 +251,7 @@ function hapus(id) {
 
 function update(id) {
 	var kategori_nm = $('#kategori_nm').val();
+    var kategori_id = $('#kategori_id').val();
         if (kategori_nm=='') {
         	Swal.fire({
                     title:"Nama kategori harus di isi!!",
@@ -247,10 +262,19 @@ function update(id) {
                     cancelButtonColor:"#f46a6a"
                 })
         } else {
+            var ajaxData = new FormData();
+             ajaxData.append('action','update-file');
+             jQuery.each($("input[name^='files']")[0].files, function(i, file) {
+                ajaxData.append('files['+i+']', file);
+              });
+             ajaxData.append('kategori_nm',kategori_nm);
+             ajaxData.append('kategori_id',kategori_id);
             $.ajax({
             url : "<?= base_url('kategori/update') ?>",
-            type: "post",
-            data : {'kategori_nm':kategori_nm,'id':id},
+            type: "POST",
+            data : ajaxData,
+            contentType: false,
+            processData: false,
             success:function(_data){
              if (_data=='already') {
                 Swal.fire({
@@ -261,7 +285,7 @@ function update(id) {
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-             } else {
+             } else if (_data=='true'){
                 Swal.fire({
                     title:"Berhasil!",
                     text:"Data berhasil disimpan!",
@@ -270,7 +294,7 @@ function update(id) {
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-                setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
+                //setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
                 }
             },
             error:function(){
@@ -287,4 +311,5 @@ function update(id) {
         }
 }
 </script>
+
 <?= $this->endSection(); ?>
