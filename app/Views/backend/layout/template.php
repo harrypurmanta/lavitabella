@@ -10,22 +10,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    
+
+
+
+    
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url() ?>/assets/images/favicon.png">
     <title><?= $title; ?></title>
     <!-- Bootstrap Core CSS -->
-    <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=base_url() ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
-        href="../../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="../../assets/plugins/datatables.net-bs4/css/responsive.dataTables.min.css">
+        href="<?=base_url() ?>/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url() ?>/assets/plugins/datatables.net-bs4/css/responsive.dataTables.min.css">
     <!-- This page CSS -->
-    <link rel="stylesheet" href="../../assets/plugins/dropify/dist/css/dropify.min.css">
+    <link rel="stylesheet" href="<?=base_url() ?>/assets/plugins/dropify/dist/css/dropify.min.css">
     <!--alerts CSS -->
-    <link href="../../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="<?=base_url() ?>/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="<?=base_url() ?>/assets/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="../../assets/css/colors/default-dark.css" id="theme" rel="stylesheet">
+    <link href="<?=base_url() ?>/assets/css/colors/default-dark.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -62,16 +67,16 @@
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                            <img src="<?=base_url() ?>/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
                             <!-- Light Logo icon -->
-                            <img src="../../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                            <img src="<?=base_url() ?>/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text --><span>
                          <!-- dark Logo text -->
-                         <img src="../../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                         <img src="<?=base_url() ?>/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
                          <!-- Light Logo text -->    
-                         <img src="../../assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+                         <img src="<?=base_url() ?>/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -120,12 +125,12 @@
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../../assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?=base_url() ?>/assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">
-                                            <div class="u-img"><img src="../../assets/images/users/1.jpg" alt="user"></div>
+                                            <div class="u-img"><img src="<?=base_url() ?>/assets/images/users/1.jpg" alt="user"></div>
                                             <div class="u-text">
                                                 <h4>Steave Jobs</h4>
                                                 <p class="text-muted"><a href="https://www.wrappixel.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6f190e1d1a012f08020e0603410c0002">[email&#160;protected]</a></p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
@@ -175,32 +180,32 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <!-- <script data-cfasync="false" src="../../../../../../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
-    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
+    <!-- <script data-cfasync="false" src="<?=base_url() ?>/<?=base_url() ?>/<?=base_url() ?>/<?=base_url() ?>/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+    <script src="<?=base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap popper Core JavaScript -->
-    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="../../assets/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="<?=base_url() ?>/assets/js/perfect-scrollbar.jquery.min.js"></script>
     <!--Wave Effects -->
-    <script src="../../assets/js/waves.js"></script>
+    <script src="<?=base_url() ?>/assets/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="../../assets/js/sidebarmenu.js"></script>
+    <script src="<?=base_url() ?>/assets/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="../../assets/js/custom.min.js"></script>
+    <script src="<?=base_url() ?>/assets/js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
     <!-- Sweet-Alert  -->
-    <script src="../../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
-    <script src="../../assets/plugins/sweetalert2/sweet-alert.init.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/sweetalert2/sweet-alert.init.js"></script>
     <!-- This is data table -->
-    <script src="../../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../../assets/plugins/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/datatables.net-bs4/js/dataTables.responsive.min.js"></script>
     <!--sparkline JavaScript -->
-    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- jQuery file upload -->
-    <script src="../../assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/dropify/dist/js/dropify.min.js"></script>
     <script>
       
         $(function () {
@@ -256,7 +261,7 @@
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="<?=base_url() ?>/assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 
 

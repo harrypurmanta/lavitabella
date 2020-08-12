@@ -19,7 +19,6 @@ class Usersmodel extends Model
     	$users = $Usersmodel->where('user_nm', $u)
                             ->where('pwd0',$p)
                             ->findAll();
-
         return $users;
     }
 

@@ -176,6 +176,7 @@
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
+                $('#modaledit').modal('hide');
                  $( "#myTable" ).load("<?= base_url('kategori') ?> #myTable");
                // setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
                 }
@@ -294,6 +295,7 @@ function update(id) {
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
+                $('#modaledit').modal('hide');
                 //setTimeout(function(){ window.location.href = "<?=base_url()?>/kategori"; }, 1000);
                 }
             },

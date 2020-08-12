@@ -71,7 +71,9 @@ class Autoload extends \CodeIgniter\Config\AutoloadConfig
 		 *       'MyClass'   => '/path/to/class/file.php'
 		 *   ];
 		 */
-		$classmap = [];
+		$classmap = [
+			// 'Ciqrcode' => APPPATH .'ThirdParty/qrcode/Ciqrcode.php'
+		];
 
 		//--------------------------------------------------------------------
 		// Do Not Edit Below This Line

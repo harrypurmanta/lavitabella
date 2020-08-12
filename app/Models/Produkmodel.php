@@ -50,7 +50,7 @@ class Produkmodel extends Model
     public function getbyKatId($id){
         $db = db_connect('default');
         $builder = $db->table('produk a');
-        $builder->select('a.produk_id,a.produk_nm,a.created_dttm,a.status_cd,a.produk_harga');
+        $builder->select('a.produk_id,a.produk_nm,a.created_dttm,a.status_cd,a.produk_harga,a.kategori_id');
         $builder->where('a.status_cd','normal');
         $builder->where('a.kategori_id',$id);
         $query = $builder->get();

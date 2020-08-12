@@ -13,6 +13,13 @@ class Dashboard extends BaseController
 		return view('backend/dashboard', $data);
 	}
 
+	public function waiters() {
+		$data = [
+			'title' => 'Waiters Dashboard'
+		];
+		return view('backend/waitersdashboard', $data);
+	}
+
 	public function error() {
 		$data = [
 			'title' => 'Error Dashboard'

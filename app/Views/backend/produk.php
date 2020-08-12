@@ -149,7 +149,9 @@
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-                setTimeout(function(){ window.location.href = "<?=base_url()?>/produk"; }, 1000);
+                $('#modaledit').modal('hide');
+                 $( "#myTable" ).load("<?= base_url('produk') ?> #myTable");
+                // setTimeout(function(){ window.location.href = "<?=base_url()?>/produk"; }, 1000);
             
             },
             error:function(){
@@ -257,7 +259,9 @@ function update(id) {
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-                setTimeout(function(){ window.location.href = "<?=base_url()?>/Produk"; }, 1000);
+                $('#modaledit').modal('hide');
+                 $( "#myTable" ).load("<?= base_url('produk') ?> #myTable");
+                // setTimeout(function(){ window.location.href = "<?=base_url()?>/Produk"; }, 1000);
                 }
             },
             error:function(){

@@ -77,11 +77,11 @@ class Kategori extends BaseController
 				   foreach($imagefile['photo'] as $img){
 				      if ($img->isValid() && ! $img->hasMoved()){
 				           $newName = $img->getRandomName();
-				           $img->move('./public/images', $newName);
+				           $img->move('../public/images', $newName);
 				           $dataimg = [
 				           	'kategori_id' => $kat_id,
 				           	'image_nm' => $newName,
-				           	'image_path' => './public/images',
+				           	'image_path' => '../public/images',
 				           	'created_dttm' => $datenow,
 							'created_user' => $this->session->user_id
 				       		];
@@ -147,40 +147,38 @@ class Kategori extends BaseController
 		$id = $this->request->getVar('kategori_id');
 		$kategori_nm = $this->request->getVar('kategori_nm');
 		
-			// $session = \Config\Services::session();
-			// $session->start();
 			$datenow = date('Y-m-d H:i:s');
 			$data = [
 			'kategori_nm' => $kategori_nm,
 			'updated_dttm' => $datenow,
 			'updated_user' => $this->session->user_id
 			];
-			// $imagefile = $this->request->getFiles();
-			// echo json_encode($imagefile);exit;
-
 			$save = $this->kategorimodel->update($id,$data);
 			if ($save) {
 				if($imagefile = $this->request->getFiles()){
 				   foreach($imagefile['files'] as $img){
 				      if ($img->isValid() && ! $img->hasMoved()){
 				           $newName = $img->getRandomName();
-				           $img->move('./public/images', $newName);
-				           $dataimg = [
-				           	'image_nm' => $newName,
-				           	'image_path' => './public/images',
-				           	'created_dttm' => $datenow,
-							'created_user' => $this->session->user_id
-				       		];
-				       		$insertimage = $this->imagesmodel->updateimage($id,$dataimg);
-				       		if ($insertimage) {
-				       			return 'true';
-				       		} else {
-				       			return 'false1';
-				       		}
+				           $img->move('../public/images', $newName);
+				           $retimg = $this->imagesmodel->getimagebykatid($id)->getResult();
+							$dataimg = [
+								'kategori_id' => $id,
+								'image_nm' => $newName,
+								'image_path' => '../public/images',
+								'created_dttm' => $datenow,
+								'created_user' => $this->session->user_id
+							];
+							$insertimage = $this->imagesmodel->insert($dataimg);
 				      	} else {
 				      		return 'false2';
 				      	}
 					}
+					if ($insertimage) {
+						return 'true';
+					} else {
+						return 'false';
+					}
+					
 					
 				} else {
 					return 'false3';
@@ -230,7 +228,7 @@ class Kategori extends BaseController
 	public function formedit(){
 		$kategori_id = $this->request->getVar('id');
 		$res = $this->kategorimodel->find($kategori_id);
-		$resimage = $this->imagesmodel->getimagebykatid($kategori_id);
+		$resimage = $this->imagesmodel->getimagebykatid($kategori_id)->getResult();
 		if (count($res)>0) {
 				$ret = "<div class='modal-dialog'>"
 	            . "<div class='modal-content'>"
@@ -248,9 +246,9 @@ class Kategori extends BaseController
 	            . "<div class='col-md-4'>"
                 . "<div class='form-group'>"
                 . "<label class='control-label'>Gambar :</label>"
-                . "<div style='display:inline-block;'>";
+                . "<div>";
                 foreach ($resimage as $key) {
-                $ret .= "<img class='card-img-top img-responsive' src='./public/images/".$key['image_nm']."' style='max-height:100%;width:100px;display:inline-block;'/>";
+                $ret .= "<div style='display:inline-block;'><img class='card-img-top img-responsive' src='../images/".$key->image_nm."' style='max-height:100%;width:100px;'/></div>";
 		        }
 
                 $ret .= "</div>"
