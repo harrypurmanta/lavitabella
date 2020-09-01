@@ -1,3 +1,10 @@
+.kategorinm {
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #loader-wrapper {
 	display: flex;
 	position: fixed;
@@ -124,7 +131,7 @@
   border: none;
   border-radius: 15px;
   box-shadow: 0 9px #999;
-  margin: 10px;
+  margin: 20px;
 }
 
 .meja-button:hover {background-color: #3e8e41}
@@ -174,3 +181,26 @@
     content: '';
     border: 15px solid #263238;
     border-right: 10px solid transparent;
+}
+
+.badgex {
+	position: absolute;
+    display: inline-block;
+    padding: 25px;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 2.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.badge-dangerx {
+    background-color: #ef5350;
+}
+
+.badge-warningx {
+    background-color: #ef5350;
+}

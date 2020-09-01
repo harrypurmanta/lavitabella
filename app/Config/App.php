@@ -33,7 +33,7 @@ class App extends BaseConfig
 	| variable so that it is blank.
 	|
 	*/
-	public $indexPage = 'index.php';
+	public $indexPage = '';
 
 	/*
 	|--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ class App extends BaseConfig
 	| dates with the date helper, and can be retrieved through app_timezone()
 	|
 	*/
-	public $appTimezone = 'America/Chicago';
+	public $appTimezone = 'Asia/Jakarta';
 
 	/*
 	|--------------------------------------------------------------------------
@@ -183,7 +183,7 @@ class App extends BaseConfig
 	*/
 	public $sessionDriver            = 'CodeIgniter\Session\Handlers\FileHandler';
 	public $sessionCookieName        = 'ci_session';
-	public $sessionExpiration        = 7200;
+	public $sessionExpiration        = 86400;
 	public $sessionSavePath          = WRITEPATH . 'session';
 	public $sessionMatchIP           = false;
 	public $sessionTimeToUpdate      = 300;

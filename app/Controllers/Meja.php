@@ -43,9 +43,22 @@ class Meja extends BaseController {
 	public function viewmejawaiters(){
 		$res = $this->mejamodel->getbyNormal()->getResult();
 		$ret = "<div align='center'>
-				<div><h3>DAFTAR MEJA</h3></div>";
+				<div><h1>DAFTAR MEJA</h1></div>";
 		foreach ($res as $key) {
-			$ret .= "<a href='".base_url()."/meja/viewbilling/$key->meja_id' ><button type='button' class='meja-button'><span style='font-size:25px;font-weight:bold;'>$key->meja_nm</span></button>";
+			$cekmejabill = $this->billingmodel->getbyMejaid($key->meja_id);
+			if (count($cekmejabill->getResultArray())>0) {
+				foreach ($cekmejabill->getResult() as $k) {
+					if ($k->statusbilling == 'waiting' || $k->statusbilling == 'verified') {
+						$spannotif = "<span style='margin-right:20px;' class='badgex badge-dangerx'> </span>";
+					} else {
+						$spannotif = "";
+					}
+				}
+			} else {
+				$spannotif = "";
+			}
+			
+			$ret .= "<a href='".base_url()."/meja/viewbilling/$key->meja_id' ><button type='button' class='meja-button'><span style='font-size:75px;font-weight:bold;'>$key->meja_nm</span>$spannotif</button></a>";
 		}
 		$ret .= "</div>";
 	 	return $ret;
@@ -55,17 +68,15 @@ class Meja extends BaseController {
 	public function showorderbymeja(){
 		$meja_id = $this->request->getPost('id');
 		$res = $this->billingmodel->getbyMejaid($meja_id)->getResult();
-		if ($res[0]->statusbilling == 'verified') {
-			$buttonverif = "<div style='display:inline-block; float: right;' align='right' class='alert alert-danger'>not yet paid !! </div> <div style='display:inline-block; float: right; margin-right: 10px;' align='right'><button type='button' class='btn btn-danger' onclick='batalbilling(".$res[0]->billing_id.")'>Batal</button></div>";
-		} else {
-			$buttonverif = "<div style='display:inline-block; float: right;' align='right'><button type='button' class='btn btn-success' onclick='verifybilling(".$res[0]->billing_id.")'>Verifikasi</button></div>
-
-			<div style='display:inline-block; float: right; margin-right: 10px;' align='right'><button type='button' class='btn btn-danger' onclick='batalbilling(".$res[0]->billing_id.")'>Batal</button></div>";
-		}
-		
-
 
 		if (count($res)>0) {
+			if ($res[0]->statusbilling == 'verified') {
+			$buttonverif = "<div style='display:inline-block; float: right;' align='right' class='alert alert-danger'>not yet paid !! </div> <div style='display:inline-block; float: right; margin-right: 10px;' align='right'><button type='button' class='btn btn-danger' onclick='batalbilling(".$res[0]->billing_id.")'>Batal</button></div>";
+			} else {
+				$buttonverif = "<div style='display:inline-block; float: right;' align='right'><button type='button' class='btn btn-success' onclick='verifybilling(".$res[0]->billing_id.")'>Verifikasi</button></div>
+				<div style='display:inline-block; float: right; margin-right: 10px;' align='right'><button type='button' class='btn btn-danger' onclick='batalbilling(".$res[0]->billing_id.")'>Batal</button></div>";
+			}
+
 			$subtotal = 0;
 			$ret = "<div align='center' id='div-item'>
 			<div style='display:inline-block; float: left;' align='left'><button type='button' class='btn btn-info' onclick='backtowaiters()'>Kembali</button></div>
@@ -104,15 +115,26 @@ class Meja extends BaseController {
 				      <table  style='font-size: 30px;' width='100%'>";
 			foreach ($res as $key) {
 				$total = $key->produk_harga * $key->qty;
-				if ($key->status_cd == "nullified") {
-					$buttonproduk = "<button onclick='enableproduk($key->billing_item_id)' type='button' class='btn btn-success'>Enable</button>";
-					$style = "style='text-decoration: line-through;'";
+				if ($key->statusbilling == 'verified') {
+					if ($key->status_cd == "nullified") {
+						$buttonproduk = "";
+						$style = "style='text-decoration: line-through;'";
+					} else {
+						$subtotal = $subtotal + $total;
+						$buttonproduk = "";
+						$style = "";
+					}
 				} else {
-					$subtotal = $subtotal + $total;
-					$buttonproduk = "<button onclick='disableproduk($key->billing_item_id)' type='button' class='btn btn-danger'>Disable</button>";
-					$style = "";
+					if ($key->status_cd == "nullified") {
+						$buttonproduk = "<button onclick='enableproduk($key->billing_item_id)' type='button' class='btn btn-success'>Enable</button>";
+						$style = "style='text-decoration: line-through;'";
+					} else {
+						$subtotal = $subtotal + $total;
+						$buttonproduk = "<button onclick='disableproduk($key->billing_item_id)' type='button' class='btn btn-danger'>Disable</button>";
+						$style = "";
+					}
 				}
-				
+
 				$ret .= "<tr>
 				        <td colspan='3' align='left' style='font-weight: bold;font-size: 30px;'>
 				            <span ".$style.">$key->produk_nm</span> ".$buttonproduk."
@@ -164,9 +186,27 @@ class Meja extends BaseController {
   		return $ret;
 	}
 
+	public function orderbilling() {
+		$id = $this->request->getPost('id');
+		$datenow = date('Y-m-d H:i:s');
+		$data = [
+			'status_cd' => 'waiting',
+			'created_dttm' => $datenow,
+			'created_user' => $id
+		];
+		$res = $this->billingmodel->orderbilling($id,$data);
+		return $res;
+	}
+
 	public function verifybilling(){
 		$id = $this->request->getPost('id');
-		$res = $this->billingmodel->verifybilling($id);
+		$datenow = date('Y-m-d H:i:s');
+		$data = [
+			'status_cd' => 'verified',
+			'verified_dttm' => $datenow,
+			'verified_user' => $this->session->user_id 
+		];
+		$res = $this->billingmodel->verifybilling($id,$data);
 		return $res;
 	}
 
@@ -200,7 +240,7 @@ class Meja extends BaseController {
 			$mejaid = $this->mejamodel->simpan($data);
 			if ($mejaid) {
 				require_once APPPATH.'/Libraries/vendor/autoload.php';
-				$url = 'http://localhost:8080/produk/listmenu/'.$mejaid;
+				$url = 'https://butcher.cliniccoding.id/produk/listmenu/'.$mejaid;
 		        $options = new QROptions([
 					'version'      => 7,
 					'outputType'   => QRCode::OUTPUT_IMAGE_PNG,
@@ -212,6 +252,15 @@ class Meja extends BaseController {
 		        $qrnm = str_replace(" ", "_", $meja_nm);
 				$qrcode = new QRCode($options);
 				$qrcode->render($url, '../public/images/qrcode/'.$qrnm.'.png');
+				$dataqr = [
+					'meja_id' => $mejaid,
+					'image_nm' => $qrnm.'.png',
+					'image_path' => '../public/images/qrcode/',
+					'status_cd' => 'normal',
+					'created_dttm' => $datenow,
+					'created_user' => $this->session->user_id
+				];
+				$insertqr = $this->mejamodel->simpanqr($dataqr);
 		        return true;
 			} else {
 				return false;
@@ -306,6 +355,18 @@ class Meja extends BaseController {
 		} else {
 			return false;
 		}
+	}
+
+	public function cancelbilling(){
+		$id = $this->request->getPost('id');
+
+		$res = $this->billingmodel->batalbilling($id);
+		if ($res) {
+			return 'true';
+		} else {
+			return 'false';
+		}
+		
 	}
 
 }

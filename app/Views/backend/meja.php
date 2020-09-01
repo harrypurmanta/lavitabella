@@ -71,7 +71,7 @@
                                                 <th class="text-center">Nama meja</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Tanggal Entri</th>
-                                                <th class="text-center">Pegawai</th>
+                                                <th class="text-center">QRcode</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -87,7 +87,7 @@
                                                 </td>
                                                 <td class="text-center"><?= $k->status_cd ?></td>
                                                 <td class="text-center"><?= $k->created_dttm ?></td>
-                                                <td><?= $k->created_user ?></td>
+                                                <td><a href="<?= $k->image_path ?><?=$k->image_nm?>">Download</a></td>
                                                 <td class="text-center">
                                                     <a href="" onclick="showedit(<?= $k->meja_id ?>)"><span style="text-decoration:underline;">Edit</span></a> |
                                                     <a href="" onclick="hapus(<?= $k->meja_id ?>)"><span style="text-decoration:underline;">Hapus</span></a>

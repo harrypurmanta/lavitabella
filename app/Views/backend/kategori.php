@@ -86,19 +86,19 @@
                                         <tbody>
                                         	<?php 
                                         		$no=1;
-                                        		foreach ($kategori as $k) {
+                                        		foreach ($kategori->getResult() as $k) {
                                         	?>
 
                                             <tr id="accordian-3">
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><a onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k['kategori_nm'] ?></span></a>
+                                                <td><a onclick="showedit(<?= $k->kategori_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->kategori_nm ?></span></a>
                                                 </td>
-                                                <td class="text-center"><?= $k['status_cd'] ?></td>
-                                                <td class="text-center"><?= $k['created_dttm'] ?></td>
-                                                <td><?= $k['created_user'] ?></td>
+                                                <td class="text-center"><?= $k->status_cd ?></td>
+                                                <td class="text-center"><?= $k->created_dttm ?></td>
+                                                <td><?= $k->created_user ?></td>
                                                 <td class="text-center">
-                                                    <a onclick="showedit(<?= $k['kategori_id'] ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k['kategori_id'] ?>,'kategori')"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="showedit(<?= $k->kategori_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
+                                                    <a onclick="hapus(<?= $k->kategori_id ?>,'kategori')"><span style="text-decoration:underline;">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -134,7 +134,7 @@
 
 
     function simpan() {
-        var kategori_nm = $("input[name^='kategori_nm']").val();
+        var kategori_nm = $("input[name^='kategori_nm").val();
         if (kategori_nm=='') {
         	Swal.fire({
             title:"Nama kategori harus di isi!!",
@@ -147,7 +147,7 @@
         } else {
              var ajaxData = new FormData();
              ajaxData.append('action','upload-file');
-             jQuery.each($("input[name^='photo']")[0].files, function(i, file) {
+             jQuery.each($("input[name^='photo")[0].files, function(i, file) {
                 ajaxData.append('photo['+i+']', file);
               });
              ajaxData.append('kategori_nm',kategori_nm);
@@ -265,7 +265,7 @@ function update(id) {
         } else {
             var ajaxData = new FormData();
              ajaxData.append('action','update-file');
-             jQuery.each($("input[name^='files']")[0].files, function(i, file) {
+             jQuery.each($("input[name^='files")[0].files, function(i, file) {
                 ajaxData.append('files['+i+']', file);
               });
              ajaxData.append('kategori_nm',kategori_nm);

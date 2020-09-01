@@ -25,9 +25,10 @@ class Mejamodel extends Model
     }
 
     public function getbyNormal() {
-        $query = $this->db->table('meja');
+        $query = $this->db->table('meja a');
         $query->select('*');
-        $query->where('status_cd','normal');
+        $query->join('imagemeja b','b.meja_id=a.meja_id');
+        $query->where('a.status_cd','normal');
         return $query->get();
     }
 
@@ -35,5 +36,10 @@ class Mejamodel extends Model
         $builder = $this->db->table('meja');
         $builder->insert($data);
         return $this->db->insertID();
+    }
+
+    public function simpanqr($data) {
+        $query = $this->db->table('imagemeja');
+        return $query->insert($data);
     }
 }

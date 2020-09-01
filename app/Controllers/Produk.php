@@ -30,12 +30,34 @@ class Produk extends BaseController
 		return view('backend/produk', $data);
 	}
 
-	public function listmenu(){
-		$data = [
+	public function listmenu2(){
+		$meja_id = $this->request->uri->getSegment(3);
+			$data = [
 			'title' => 'Menu',
 			'subtitle' => 'Menu',
-		];
-		return view('frontend/listmenu', $data);
+			'kategori' => $this->kategorimodel->getbyNormal()->getResult()
+			];
+			return view('frontend/listmenu2', $data);
+	}
+
+	public function listmenu(){
+		$meja_id = $this->request->uri->getSegment(3);
+		$res = $this->billingmodel->getbyMejaidcustomer($meja_id)->getResult();
+		if (count($res)>0) {
+			$data = [
+			'title' => 'Your Bill',
+			'subtitle' => 'Your Bill',
+			'billing' => $res
+			];
+			return view('frontend/billing', $data);
+		} else {
+			$data = [
+			'title' => 'Menu',
+			'subtitle' => 'Menu',
+			'kategori' => $this->kategorimodel->getbyNormal()->getResult()
+			];
+			return view('frontend/listmenu2', $data);
+		}
 	}
 
 	public function menu() {
@@ -122,47 +144,44 @@ class Produk extends BaseController
 						</table>
 						<hr style='border: 1px solid red;margin-bottom:100px;'>";
 		} else {
-			$ret = "<div style='background-color: #dc0000; height: 100%;' class='col-lg-12 col-md-12'>"
-			. "<input type='text' id='meja_id' value='$meja_id'/>";
+		
 
-			foreach ($kategori as $k) {
-	    	$ret .= "<button style='width: 100%; margin-top: 30px; border-radius: 10px; font-size: 50px; font-weight: bold; background-color: white; color:black;' class='btn btn-success' type='button' data-toggle='collapse' data-target='#menu_".$k['kategori_id']."' aria-expanded='false' aria-controls='menu_".$k['kategori_id']."'>".$k['kategori_nm']."</button>"
-	    		 . "<!-- LIST MENU -->"
-	    		 . "<div class='collapse' id='menu_".$k['kategori_id']."'>"
-	      		 . "<div class='table-responsive' style='margin-top: 30px;'>";
-	         
-	    	$produk = $this->produkmodel->getbyKatId($k['kategori_id']);
-	    	foreach ($produk->getResult() as $key) {
-	    	$harga = str_replace(0,'', $key->produk_harga);
-	    
-	      	$ret .= "<table id='myTable' align='center' style='margin-top: 5px; background-color: #dc0000;'>"
-	        	. "<tr class='tr'>"
-	         	. "<td width='250' height='50' align='left'>"
-	         	// . "<input type='hidden' name='produk_id[]' value='$key->produk_id' type='text'/>"
-
-	         	. "<input id='qty$key->produk_id' data-produk-id='$key->produk_id' value='0' style='width: 40%; height: 55px; font-size: 40px; font-weight: bold; text-align: center; display: inline-block; top: 20px;' type='number' name='qty[]' max-length='2' min='0' max='99'/>"
-	         	. "<button onclick='minus($key->produk_id)' class='btn btn-success font-weight-bold' style='font-size: 50px; height: 50px; width: 50px; line-height: 25px; display: inline-block; margin-bottom: 25px;'>-</button>"
-	       		. "<button onclick='add($key->produk_id)' class='btn btn-success font-weight-bold' style='font-size: 50px; height: 50px; width: 50px; line-height: 25px; display: inline-block; margin-bottom: 25px;'>+</button>"
-	         	. "</td>"
-	         	. "<td width='550' align='left' style='color: white; font-weight: bold; font-size: 40px;'>$key->produk_nm</td>"
-	         	. "<td width='150' align='center' style='color: white; font-weight: bold; font-size: 50px;'>$harga</td>"
-	         	. "</tr>"
-				. "</table>";
-	    }
-	       $ret .= "<hr>"
-	       		. "<div align='center'>";
-	        
-	        $images = $this->imagesmodel->getimagebykatid($k['kategori_id']);
-	        foreach ($images->getResult() as $key) {
-	    	$ret .= "<div style='display: inline-block; padding: 10px;'><img src='../../images/$key->image_nm' style='height: 185px; width: 280px;'></div>";
-	      	}
-	       	$ret .= "</div>"
-	      		. "</div>"
-	    		. "</div>"
-	  			. "<!-- END LIST MENU -->";
+	    	foreach ($kategori as $k2) {
+			$ret .= "<!-- LIST MENU -->"
+			. "<div style='display:none;' id='menu_".$k['kategori_id']."'>"
+		  	. "<div class='table-responsive' style='margin-top: 30px;'>";
+		         
+		    	$produk = $this->produkmodel->getbyKatId($k['kategori_id']);
+		    	foreach ($produk->getResult() as $key) {
+		    	$harga = str_replace(0,'', $key->produk_harga);
+		    
+		      	$ret .= "<table id='myTable' align='center' style='margin-top: 5px; background-color: #dc0000;'>"
+		        	. "<tr class='tr'>"
+		         	. "<td width='250' height='50' align='left'>"
+		         	. "<input id='qty$key->produk_id' data-produk-id='$key->produk_id' value='0' style='width: 40%; height: 55px; font-size: 40px; font-weight: bold; text-align: center; display: inline-block; top: 20px;' type='number' name='qty[]' max-length='2' min='0' max='99'/>"
+		         	. "<button onclick='minus($key->produk_id)' class='btn btn-success font-weight-bold' style='font-size: 50px; height: 50px; width: 50px; line-height: 25px; display: inline-block; margin-bottom: 25px;'>-</button>"
+		       		. "<button onclick='add($key->produk_id)' class='btn btn-success font-weight-bold' style='font-size: 50px; height: 50px; width: 50px; line-height: 25px; display: inline-block; margin-bottom: 25px;'>+</button>"
+		         	. "</td>"
+		         	. "<td width='550' align='left' style='color: white; font-weight: bold; font-size: 40px;'>$key->produk_nm</td>"
+		         	. "<td width='150' align='center' style='color: white; font-weight: bold; font-size: 50px;'>$harga</td>"
+		         	. "</tr>"
+					. "</table>";
+		    }
+		       $ret .= "<hr>"
+		       		. "<div align='center'>";
+		        
+		        $images = $this->imagesmodel->getimagebykatid($k['kategori_id']);
+		        foreach ($images->getResult() as $key) {
+		    	$ret .= "<div style='display: inline-block; padding: 10px;'><img src='../../images/$key->image_nm' style='height: 185px; width: 280px;'></div>";
+		      	}
+		       	$ret .= "</div>"
+		      		. "</div>"
+		    		. "</div>"
+		  			. "<!-- END LIST MENU -->";
+		    	
+		  		$ret .= "</div>"
+		  			 . "<button onclick='simpanorder()' type='button' class='btn btn-success btn-circle btn-xl' style='position: fixed; bottom: 50px; right: 20px;'><i class='fa fa-check'></i></button>";
 	    	}
-	  		$ret .= "</div>"
-	  			 . "<button onclick='simpanorder()' type='button' class='btn btn-success btn-circle btn-xl' style='position: fixed; bottom: 50px; right: 20px;'><i class='fa fa-check'></i></button>";
 		}
   		return $ret;
 	}

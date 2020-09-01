@@ -19,129 +19,130 @@ $uri = current_url(true);
 	<!-- Custom CSS -->
     <link href="<?=base_url() ?>/assets/css/style.css" rel="stylesheet">
     <link href="<?=base_url() ?>/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-
-    <style type="text/css">
-		#loader-wrapper {
-		  display: flex;
-		  position: fixed;
-		  z-index: 1060;
-		  top: 0;
-		  right: 0;
-		  bottom: 0;
-		  left: 0;
-		  flex-direction: row;
-		  align-items: center;
-		  justify-content: center;
-		  padding: 0.625em;
-		  overflow-x: hidden;
-		  transition: background-color 0.1s;
-		  background-color: rgb(253 253 253 / 58%);
-		  -webkit-overflow-scrolling: touch;
-		}
-
-		.loader {
-		  border: 10px solid #f3f3f3;
-		  border-radius: 50%;
-		  border-top: 10px solid #3af3f5;
-		  border-bottom: 10px solid #3abcec;
-		  width: 50px;
-		  height: 50px;
-		  -webkit-animation: spin 2s linear infinite;
-		  animation: spin 2s linear infinite;
-		  margin: 1.75rem auto;
-		}
-
-		#form-input {
-		  animation: fadeIn ease 1s;
-		  -webkit-animation: fadeIn ease 1s;
-		  -moz-animation: fadeIn ease 1s;
-		  -o-animation: fadeIn ease 1s;
-		  -ms-animation: fadeIn ease 1s;
-		}
-
-		#content {
-		  animation: fadeIn ease 1s;
-		  -webkit-animation: fadeIn ease 1s;
-		  -moz-animation: fadeIn ease 1s;
-		  -o-animation: fadeIn ease 1s;
-		  -ms-animation: fadeIn ease 1s;
-		}
-
-		.border-form {
-		  border: 2px solid #dee2e6;
-		  padding: 20px;
-		  border-radius: 5px;
-		}
-
-		@keyframes fadeIn {
-		  0% {
-		    opacity: 0;
-		  }
-		  100% {
-		    opacity: 1;
-		  }
-		}
-
-		@-moz-keyframes fadeIn {
-		  0% {
-		    opacity: 0;
-		  }
-		  100% {
-		    opacity: 1;
-		  }
-		}
-
-		@-webkit-keyframes fadeIn {
-		  0% {
-		    opacity: 0;
-		  }
-		  100% {
-		    opacity: 1;
-		  }
-		}
-
-		@-o-keyframes fadeIn {
-		  0% {
-		    opacity: 0;
-		  }
-		  100% {
-		    opacity: 1;
-		  }
-		}
-
-		@-ms-keyframes fadeIn {
-		  0% {
-		    opacity: 0;
-		  }
-		  100% {
-		    opacity: 1;
-		  }
-		}
-
-		@-webkit-keyframes spin {
-		  0% {
-		    -webkit-transform: rotate(0deg);
-		  }
-		  100% {
-		    -webkit-transform: rotate(360deg);
-		  }
-		}
-
-		@keyframes spin {
-		  0% {
-		    transform: rotate(0deg);
-		  }
-		  100% {
-		    transform: rotate(360deg);
-		  }
-		}
-
-    </style>
+    <link href="<?=base_url() ?>/assets/css/custom.css" rel="stylesheet">
 </head>
 <body>
 <div class="col-lg-12 col-md-12">
 <div class="container-fluid">
+	<?php
+	if ($billing[0]->member_id == 0) {
+		$billname = $billing[0]->meja_nm;
+	} else {
+		$billname = $billing[0]->person_nm;
+	}
+
+	if ($billing[0]->statusbilling == 'verified') {
+		$collctedby = "<tr>
+	          <td align='left'>Collected By</td>
+	          <td align='right'>".$billing[0]->collected_nm."</td>
+	        </tr>";
+	} else {
+		$collctedby = "";
+	}
+
+	if ($billing[0]->statusbilling == 'normal') {
+		$footer = "<button onclick='cancelorder(".$billing[0]->billing_id.")' type='button' class='btn btn-danger float-left' style='font-size: 50px; font-weight: bold;'>Cancel</button>
+			<button onclick='order(".$billing[0]->billing_id.")' class='btn btn-success float-right' style='font-size: 50px; font-weight: bold;'>Order</button>";
+		$buttonmenu = "<div style='display:inline-block;' class='float-left'>
+			<button onclick='listmenu()' type='button' class='btn btn-info float-left' style='font-size: 40px; font-weight: bold;'>Menu</button>
+			</div>";
+	} else if ($billing[0]->statusbilling == 'waiting') {
+		$footer = "<div align='center' class='alert alert-info alert-rounded'> 
+						<i class='far fa-handshake'></i> SILAHKAN TUNGGU WAITERS UNTUK KONFIRMASI PESANAN ANDA !!
+					</div>";
+
+		$buttonmenu = "<div style='display:inline-block;' class='float-left'>
+						<button onclick='listmenu()' type='button' class='btn btn-info float-left' style='font-size: 40px; font-weight: bold;'>Menu</button>
+						</div>";
+	} else if ($billing[0]->statusbilling == 'verified') {
+		$footer = "<div align='center' class='alert alert-success alert-rounded'> 
+						<i class='far fa-handshake'></i>  PESANAN ANDA SEDANG DI PROSES. SILAHKAN TUNGGU !!
+					</div>";
+		$buttonmenu = "";
+	}
 	
+	
+	
+$subtotal = 0;
+$ret = "<div align='center'>
+			$buttonmenu
+			<div style='display:inline-block; margin-left: -137px;'>
+				<img style='max-height: 100%; width: 150px;' src='../../images/lib/logo.jpeg'>
+			</div>
+			<div style='margin-top: 30px;'>
+				<p>
+					<span style='font-size: 30px;'>Butcher Steak & Pasta Palembang</span><br>
+					<span style='font-size: 30px;'>Jl. AKBP Cek Agus No. 284, Palembang</span><br>
+					<span style='font-size: 30px;'>Sumatera Selatan, 30114, 07115626366</span>
+				</p>
+			</div>
+		</div>";
+$ret .= "<table width='100%' style='margin-top: 20px;font-size: 30px;'>
+	        <tr>
+	          <td align='left'>Tanggal</td>
+	          <td align='right'>".$billing[0]->created_dttm."</td>
+	        </tr>
+	        <tr>
+	          <td align='left'>Bill Name</td>
+	          <td align='right'>".$billname."</td>
+	        </tr>
+	        $collctedby
+	      </table>
+	      <hr style='border: 1px solid red'>
+	      <table style='font-size: 30px;' width='100%'>";
+foreach ($billing as $key) {
+	$total = $key->produk_harga * $key->qty;
+	$subtotal = $subtotal + $total;
+	$ret .= "<tr>
+	        <td colspan='3' align='left' style='font-weight: bold;font-size: 30px;'>
+	            $key->produk_nm
+	          </td>
+	        </tr>
+	        <tr style='font-size: 30px;'>
+	          <td align='left' width='50'>$key->qty X</td>
+	          <td align='center'>@".number_format($key->produk_harga)."</td>
+	          <td align='right'>".number_format($total)."</td>
+	        </tr>
+	        <tr style='line-height:40px;'>
+	        <td>&nbsp </td>
+	        <td></td>
+	        <td></td>
+	        </tr>";
+	 }
+	$ret .= "</table>
+			<hr style='border: 1px solid red'>";
+	$tax = $subtotal * 0.10;
+	$service = $subtotal * 0.05;
+	$grandtotal = $subtotal + $tax + $service;
+	        
+	$ret .= "<table style='font-size: 30px; margin-top:30px;' width='100%'>
+	        <tr>
+	          <td align='left'>Subtotal</td>
+	          <td colspan='2' align='right'>Rp. ".number_format($subtotal)."</td>
+	        </tr>
+	        <tr>
+	          <td align='left'>Tax</td>
+	          <td colspan='2' align='right'>Rp. ".number_format($tax)."</td>
+	        </tr>
+	        <tr>
+	          <td align='left'>service</td>
+	          <td colspan='2' align='right'>Rp. ".number_format($service)."</td>
+	        </tr>
+	        <tr>
+	          <td align='left'>Rounding Amount</td>
+	          <td colspan='2' align='right'>Rp. dak tau rumusnyo</td>
+	        </tr>
+	        <tr>
+	          <td align='left' style='font-weight:bold;'>Total</td>
+	          <td colspan='2' align='right'>Rp. ".number_format($grandtotal)."</td>
+	        </tr>
+			</table>
+			<hr style='border: 1px solid red;margin-bottom:100px;'>
+			<div style='margin-bottom: 150px;'>
+			$footer
+			</div>";
+	echo $ret;
+	?>
 
 </div>
 </div>
@@ -154,32 +155,93 @@ $uri = current_url(true);
 <script src="<?=base_url() ?>/assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <script src="<?=base_url() ?>/assets/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		 var meja_id = <?=$uri->getSegment(3)?>
-		 
-		    $.ajax({
-		     url : "<?= base_url('meja/databilling') ?>",
-		     data : {'meja_id':meja_id},
-		     type: "post",
-		     beforeSend: function () { 
-		      $("#loader-wrapper").removeClass("d-none");
-		     },
-		     success:function(data){
-		      $('#container_content').html(data);
-		      setTimeout(function(){ $("#loader-wrapper").addClass("d-none"); }, 3000);
+function listmenu() {
+  window.location.href = "<?=base_url()?>/produk/listmenu2/"+<?= $uri->getSegment(3)?>;
+}
+
+function order(id) {
+Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, order it!'
+}).then((result) => {
+    if (result.value == true) {
+    	$.ajax({
+		   url : "<?= base_url('meja/orderbilling')?>",
+		   type: "POST",
+		   data : {id:id},
+		   beforeSend: function () { 
+		      $("#loader-wrapper").removeClass("d-none")
+		   },
+		   success:function(){
+		      setTimeout(function(){ 
+		        $("#loader-wrapper").addClass("d-none");
+		        Swal.fire(
+		            'Ordered!',
+		            'Your order has been send to waiters.',
+		            'success'
+		        )
+		        window.location.href = "<?=base_url()?>/produk/listmenu/"+<?= $uri->getSegment(3)?>;
+		      });  
 		    },
 		    error:function(){
-		    Swal.fire({
-		      title:"Gagal!",
-		      text:"Data gagal disimpan!",
-		      type:"warning",
-		      showCancelButton:!0,
-		      confirmButtonColor:"#556ee6",
-		      cancelButtonColor:"#f46a6a"
-		    })
+		    Swal.fire(
+		        'Gagal!',
+		        'Silahkan Coba Lagi.',
+		        'warning'
+		    )
 		    }
 		  });
-		});
+    	
+    }
+ })
+}
+
+function cancelorder(id) {
+Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+    if (result.value == true) {
+    	$.ajax({
+		   url : "<?= base_url('meja/cancelbilling')?>",
+		   type: "POST",
+		   data : {id:id},
+		   beforeSend: function () { 
+		      $("#loader-wrapper").removeClass("d-none")
+		   },
+		   success:function(){
+		      setTimeout(function(){ 
+		        $("#loader-wrapper").addClass("d-none");
+		        Swal.fire(
+		            'Canceled!',
+		            'Your order has been canceled.',
+		            'success'
+		        )
+		        window.location.href = "<?=base_url()?>/produk/listmenu/"+<?= $uri->getSegment(3)?>;
+		      });  
+		    },
+		    error:function(){
+		    Swal.fire(
+		        'Gagal!',
+		        'Silahkan Coba Lagi.',
+		        'warning'
+		    )
+		    }
+		  });
+    	
+    }
+ })
+}
 </script>
 </body>
 </html>

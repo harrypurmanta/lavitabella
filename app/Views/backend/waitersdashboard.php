@@ -4,7 +4,7 @@ $uri = current_url(true);
 <!DOCTYPE html>
 <html>
 <head>
-	<title>DATA MEJA</title>
+	<title>Waiters Dashboard</title>
   <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#dc0000">
     <!-- Windows Phone -->
@@ -14,11 +14,11 @@ $uri = current_url(true);
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     
-	<link href="<?=base_url() ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom CSS -->
-    <link href="<?=base_url() ?>/assets/css/style.css" rel="stylesheet">
-    <link href="<?=base_url() ?>/assets/css/custom.css" rel="stylesheet">
-    <link href="<?=base_url() ?>/assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/custom.css" rel="stylesheet">
+    <link href="../assets/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -31,11 +31,10 @@ $uri = current_url(true);
 <div class="d-none" id='loader-wrapper'>
     <div class="loader"></div>
 </div>
-<script src="<?=base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
-<script src="<?=base_url() ?>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<!-- Sweet-Alert  -->
-<script src="<?=base_url() ?>/assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<script src="<?=base_url() ?>/assets/plugins/sweetalert2/sweet-alert.init.js"></script>
+<script src="../assets/plugins/jquery/jquery.min.js"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/plugins/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="../assets/plugins/sweetalert2/sweet-alert.init.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	$.ajax({

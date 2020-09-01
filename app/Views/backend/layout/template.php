@@ -115,6 +115,11 @@
 	                   		</a>
                         </li>
                         <li class="nav-item"> 
+                            <a class="nav-link" href="<?=base_url() ?>/kasir">
+                                <span class="hide-menu">Kasir </span>
+                            </a>
+                        </li>
+                        <li class="nav-item"> 
                             <a class="nav-link" href="#">
                                 <span class="hide-menu">Laporan </span>
                             </a>

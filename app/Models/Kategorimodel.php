@@ -24,10 +24,12 @@ class Kategorimodel extends Model
     }
 
     public function getbyNormal() {
-        $this->kategorimodel = new Kategorimodel();
-        $kategori = $this->kategorimodel->where('status_cd', 'normal')
-                            ->findAll();
-        return $kategori;
+        return $this->db->table('kategori_produk a')
+                    ->select('a.kategori_id,a.kategori_nm,b.image_nm,b.image_path,a.status_cd,a.created_dttm,a.created_user')
+                    ->join('image b','b.kategori_id=a.kategori_id','left')
+                    ->where('a.status_cd','normal')
+                    ->groupby('a.kategori_id')
+                    ->get();
     }
 
     public function getOptionbynormal(){
