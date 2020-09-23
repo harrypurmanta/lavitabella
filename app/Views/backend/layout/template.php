@@ -10,11 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-
-
-
-    
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url() ?>/assets/images/favicon.png">
     <title><?= $title; ?></title>
@@ -185,7 +180,6 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <!-- <script data-cfasync="false" src="<?=base_url() ?>/<?=base_url() ?>/<?=base_url() ?>/<?=base_url() ?>/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
     <script src="<?=base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap popper Core JavaScript -->
     <script src="<?=base_url() ?>/assets/plugins/bootstrap/js/popper.min.js"></script>

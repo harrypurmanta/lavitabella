@@ -1,6 +1,5 @@
 <?= $this->extend('backend/layout/template'); 
 ?>
-    
 
     <?= $this->section('content'); ?>
         <!-- ============================================================== -->
@@ -31,42 +30,13 @@
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-          		 <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                              	<?= csrf_field(); ?>
-                                    <div class="form-body">
-                                        <div class="row p-t-20">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Nama discount Produk</label>
-                                                    <input type="text" id="namadiscount" class="form-control" placeholder="Input Nama discount" required="">
-                                                    <small class="form-control-feedback"> Contoh : starter, pizza, pasta dll </small> </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Nilai discount</label>
-                                                    <input type="text" id="nilaidiscount" class="form-control" placeholder="Input Nilai discount" required="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                                    <div class="form-actions">
-                                        <button id="simpankat" type="button" class="btn btn-success" onclick="simpan()"> <i class="fa fa-check"></i> Save</button>
-                                        <button type="button" class="btn btn-inverse">Cancel</button>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-                </div>
+          		
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                         	<div class="card-header bg-info">
-                                <h4 class="m-b-0 text-white d-inline">Tabel Data discount</h4>
+                                <h4 class="m-b-0 text-white d-inline">Tabel Data member</h4>
+                                <button type="button" onclick="tambahmember()" class="btn btn-success float-right">Tambah Data</button>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
@@ -74,29 +44,29 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Nama discount</th>
-                                                <th class="text-center">Nilai</th>
+                                                <th class="text-center">Nama member</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Tanggal Entri</th>
+                                                <th class="text-center">Pegawai</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         	<?php 
                                         		$no=1;
-                                        		foreach ($discount as $k) {
+                                        		foreach ($member as $k) {
                                         	?>
 
                                             <tr id="accordian-3">
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><a onclick="showedit(<?= $k->discount_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->discount_nm ?></span></a>
+                                                <td><a onclick="showedit(<?= $k->member_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->person_nm ?></span></a>
                                                 </td>
-                                                <td class="text-center"><?= $k->value ?></td>
                                                 <td class="text-center"><?= $k->status_cd ?></td>
                                                 <td class="text-center"><?= $k->created_dttm ?></td>
+                                                <td><?= $k->created_user ?></td>
                                                 <td class="text-center">
-                                                    <a href="" onclick="showedit(<?= $k->discount_id ?>)"><span style="text-decoration:underline;">Edit</span></a> |
-                                                    <a href="" onclick="hapus(<?= $k->discount_id ?>)"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="showedit(<?= $k->person_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
+                                                    <a onclick="hapus(<?= $k->person_id ?>)"><span style="text-decoration:underline;">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -109,11 +79,10 @@
                            
                         </div>
                     </div>
-                   
                 </div>
             </div>
             <div id="modaledit" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                    
+                              
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -122,38 +91,68 @@
 
               <script type="text/javascript">
 
-    var input = document.getElementById("namadiscount");
-    
-    input.addEventListener("keyup", function(event) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("simpankat").click();
-      }
+function tambahmember() {
+	$.ajax({
+     url : "<?= base_url('member/formtambah') ?>",
+     type: "post",
+     success:function(data){
+      //_data = JSON.parse(data);
+     $('#modaledit').modal('show');
+     $('#modaledit').html(data);
+    },
+    error:function(){
+        Swal.fire({
+            title:"Gagal!",
+            text:"Data gagal disimpan!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+        })
+    }
     });
+}
 
 
     function simpan() {
-        var discount_nm = $('#namadiscount').val();
-        var nilaidiscount = $('#nilaidiscount').val();
-        if (discount_nm == "" || nilaidiscount == "") {
+        var person_nm   = $("#person_nm").val();
+        var cellphone   = $("#cellphone").val();
+        var gender_cd   = $("#gender_cd").val();
+        var email       = $("#email").val();
+        var ext_id      = $("#ext_id").val();
+        var birth_place = $("#birth_place").val();
+        var birth_dttm  = $("#birth_dttm").val();
+        var addr_txt    = $("#addr_txt").val();
+        if (person_nm == "" || cellphone == "") {
         	Swal.fire({
-                    title:"Nama discount harus di isi!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
+            title:"Nama member harus di isi!!",
+            text:"GAGAL!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+            })
         } else {
+            var ajaxData = new FormData();
+            ajaxData.append('action','forms');
+            ajaxData.append('person_nm',person_nm);
+            ajaxData.append('cellphone',cellphone);
+            ajaxData.append('gender_cd',gender_cd);
+            ajaxData.append('email',email);
+            ajaxData.append('ext_id',ext_id);
+            ajaxData.append('birth_place',birth_place);
+            ajaxData.append('birth_dttm',birth_dttm);
+            ajaxData.append('addr_txt',addr_txt);
             $.ajax({
-            url : "<?= base_url('discount/save') ?>",
+            url : "<?= base_url('member/save') ?>",
             type: "post",
-            data : {'discount_nm':discount_nm,'nilaidiscount':nilaidiscount},
-            success:function(_data){
-             if (_data=='already') {
+            data : ajaxData,
+            contentType: false,
+            processData: false,
+            success:function(data){
+             if (data=='Error') {
                 Swal.fire({
-                    title:"Nama discount sudah ada!!",
+                    title:"Error coba lagi !!",
                     text:"GAGAL!",
                     type:"warning",
                     showCancelButton:!0,
@@ -169,7 +168,8 @@
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-                 $("#myTable").load("<?= base_url('discount') ?> #myTable");
+                $('#modaledit').modal('hide');
+                $( "#myTable" ).load("<?= base_url('member') ?> #myTable");
                 }
             },
             error:function(){
@@ -188,7 +188,7 @@
 
 function showedit(id) {
     $.ajax({
-     url : "<?= base_url('discount/formedit') ?>",
+     url : "<?= base_url('member/formedit') ?>",
      type: "post",
      data : {'id':id},
      success:function(data){
@@ -206,13 +206,12 @@ function showedit(id) {
             cancelButtonColor:"#f46a6a"
         })
     }
-  });
-
+    });
 }
 
 function hapus(id) {
     $.ajax({
-     url : "<?= base_url('discount/hapus') ?>",
+     url : "<?= base_url('member/hapus') ?>",
      type: "post",
      data : {'id':id},
      success:function(){
@@ -225,7 +224,8 @@ function hapus(id) {
             confirmButtonColor:"#556ee6",
             cancelButtonColor:"#f46a6a"
         })
-        $("#myTable").load("<?= base_url('discount') ?> #myTable");
+        $( "#myTable" ).load("<?= base_url('member') ?> #myTable");
+        
     
      },
      error:function(){
@@ -243,56 +243,77 @@ function hapus(id) {
 }
 
 function update(id) {
-    var discount_nm = $('#discount_nm').val();
-	var nilaidiscount = $('#nilaidiscount').val();
-        if (discount_nm == "" || nilaidiscount == "") {
-        	Swal.fire({
-                    title:"Nama discount harus di isi!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-        } else {
-            $.ajax({
-            url : "<?= base_url('discount/update') ?>",
-            type: "post",
-            data : {'discount_nm':discount_nm,'id':id,'nilaidiscount':nilaidiscount},
-            success:function(_data){
-             if (_data=='already') {
-                Swal.fire({
-                    title:"Nama discount sudah ada!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-             } else {
-                Swal.fire({
-                    title:"Berhasil!",
-                    text:"Data berhasil disimpan!",
-                    type:"success",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-                 $( "#myTable" ).load("<?= base_url('discount') ?> #myTable");
-                }
-            },
-            error:function(){
-                Swal.fire({
-                    title:"Gagal!",
-                    text:"Data gagal disimpan!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
+    var person_nm   = $("#person_nm").val();
+    var cellphone   = $("#cellphone").val();
+    var gender_cd   = $("#gender_cd").val();
+    var email       = $("#email").val();
+    var ext_id      = $("#ext_id").val();
+    var birth_place = $("#birth_place").val();
+    var birth_dttm  = $("#birth_dttm").val();
+    var addr_txt    = $("#addr_txt").val();
+    if (id == "" || person_nm == "" || cellphone == "") {
+    	Swal.fire({
+            title:"Error!!",
+            text:"GAGAL!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+        })
+    } else {
+        var ajaxData = new FormData();
+         ajaxData.append('action','forms');
+         ajaxData.append('person_nm',person_nm);
+         ajaxData.append('cellphone',cellphone);
+         ajaxData.append('gender_cd',gender_cd);
+         ajaxData.append('email',email);
+         ajaxData.append('ext_id',ext_id);
+         ajaxData.append('birth_place',birth_place);
+         ajaxData.append('birth_dttm',birth_dttm);
+         ajaxData.append('addr_txt',addr_txt);
+         ajaxData.append('id',id);
+        $.ajax({
+        url : "<?= base_url('member/update') ?>",
+        type: "POST",
+        data : ajaxData,
+        contentType: false,
+        processData: false,
+        success:function(_data){
+         if (_data=='false') {
+            Swal.fire({
+                title:"Error silahkan coba lagi!!",
+                text:"GAGAL!",
+                type:"warning",
+                showCancelButton:!0,
+                confirmButtonColor:"#556ee6",
+                cancelButtonColor:"#f46a6a"
+            })
+         } else if (_data=='true'){
+            Swal.fire({
+                title:"Berhasil!",
+                text:"Data berhasil disimpan!",
+                type:"success",
+                showCancelButton:!0,
+                confirmButtonColor:"#556ee6",
+                cancelButtonColor:"#f46a6a"
+            })
+            $('#modaledit').modal('hide');
+            $( "#myTable" ).load("<?= base_url('member') ?> #myTable");
             }
-            });
+        },
+        error:function(){
+            Swal.fire({
+                title:"Gagal!",
+                text:"Data gagal disimpan!",
+                type:"warning",
+                showCancelButton:!0,
+                confirmButtonColor:"#556ee6",
+                cancelButtonColor:"#f46a6a"
+            })
         }
+        });
+    }
 }
 </script>
+
 <?= $this->endSection(); ?>

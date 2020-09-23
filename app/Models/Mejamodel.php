@@ -9,12 +9,6 @@ class Mejamodel extends Model
     protected $allowedFields = ['meja_nm','qrpicture','qrurl', 'status_cd', 'created_dttm','created_user','update_dttm','update_user','nullified_dttm','nullified_user'];
     protected $mejamodel;
     
-    // protected $useTimestamps = true;
-    // protected $createdField  = 'created_dttm';
-    // protected $updatedField  = 'update_dttm';
-    // protected $deletedField  = 'nullified_dttm';
-    
-
     public function getbyKatnm($meja_nm) {
         $this->mejamodel = new Mejamodel();
         

@@ -6,7 +6,7 @@ class Billingmodel extends Model
 {
     protected $table      = 'billing';
     protected $primaryKey = 'billing_id ';
-    protected $allowedFields = ['meja_id','member_id','discount_id','order_id','payplan_id','balance','ttl_paid','ttl_amount','ttl_discount','amt_before_discount', 'status_cd', 'created_dttm','created_user','update_dttm','update_user','nullified_dttm','nullified_user'];
+    protected $allowedFields = ['meja_id','member_id','discount_id','order_id','payplan_id','balance','ttl_paid','ttl_amount','ttl_discount','amt_before_discount', 'status_cd', 'created_dttm','created_user','updated_dttm','updated_user','nullified_dttm','nullified_user'];
     protected $billingmodel;
     
     // protected $useTimestamps = true;
@@ -117,5 +117,16 @@ class Billingmodel extends Model
         return $query->update();
     }
 
+    public function insertbilldisct($data) {
+        return $this->db->table('billing_discount')
+                    ->insert($data);
+    }
+
+    public function insertbillmember($id,$data) {
+        return $this->db->table('billing')
+                        ->set($data)
+                        ->where('billing_id',$id)
+                        ->update();
+    }
     
 }
